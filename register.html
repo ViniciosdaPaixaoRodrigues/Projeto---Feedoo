@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Delivery</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+    <div class="auth-card">
+        <div class="auth-form-container">
+            <h1 class="auth-title">Cadastro</h1>
+            <form class="auth-form" onsubmit="event.preventDefault(); window.location.href='login.html'">
+                <div class="form-group">
+                    <label>E-mail:</label>
+                    <input type="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha:</label>
+                    <input type="password" required>
+                </div>
+                <div class="form-group">
+                    <label>Confirmar Senha:</label>
+                    <input type="password" required>
+                </div>
+                <div class="form-footer">
+                    <button type="submit" class="next-btn">Próximo</button>
+                </div>
+                <p class="auth-switch">Já tem uma conta? <a href="login.html">Entrar</a></p>
+            </form>
+        </div>
+        <div class="auth-image" style="background-image: url('assets/register-bg.jpg');"></div>
+    </div>
+</body>
+</html>

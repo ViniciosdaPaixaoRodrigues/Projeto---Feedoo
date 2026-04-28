@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery - Entrega Rápida</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Bree+Serif&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header class="navbar">
+        <nav class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="nav-item logo-btn">Logo</a>
+                <a href="catalog.html" class="nav-item">Home</a>
+                <a href="about.html" class="nav-item">About</a>
+                <a href="#" class="nav-item" onclick="toggleCart()">Cart</a>
+            </div>
+            <div class="nav-right">
+                <a href="login.html" class="nav-item enter-btn">Entrar</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title left">Entrega rápida</h1>
+            <h1 class="hero-title right">Na sua casa</h1>
+            <button class="open-now-btn" id="btn-open-now" onclick="window.location.href='catalog.html'">Open Now</button>
+        </div>
+    </main>
+
+    <!-- Modal do Carrinho -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+            
+            <!-- Visão Geral do Carrinho (Referência 2) -->
+            <div class="cart-summary-view">
+                <h2 class="cart-title">Tela de Carrinho</h2>
+                <div class="cart-item-row">
+                    <div class="item-img-placeholder"><i class="fa-solid fa-xmark"></i></div>
+                    <div class="item-details">
+                        <div class="detail-group">
+                            <span>Nome:</span>
+                            <div class="value-box">Hambúrguer Clássico</div>
+                        </div>
+                        <div class="detail-group">
+                            <span>Preço:</span>
+                            <div class="value-box">R$ 25,00</div>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="qty-btn">-</button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <button class="checkout-btn">Comprar agora</button>
+            </div>
+
+            <hr class="cart-divider">
+
+            <!-- Visão Detalhada do Produto (Referência 1) -->
+            <div class="product-detail-view">
+                <div class="detail-header">
+                    <h3>Hambúrguer Clássico</h3>
+                </div>
+                <div class="detail-body">
+                    <div class="detail-img-large">
+                        <i class="fa-solid fa-xmark"></i>
+                    </div>
+                    <div class="detail-info">
+                        <div class="price-section">
+                            <span>Preço:</span>
+                            <div class="value-box">R$ 25,00</div>
+                        </div>
+                        <div class="info-section">
+                            <span>Informações:</span>
+                            <p class="info-text">Pão brioche artesanal, blend de carne bovina 180g, queijo cheddar derretido, alface crocante, tomate fresco e nossa maionese especial da casa. Acompanha batatas fritas.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="checkout-btn">Comprar agora</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        // Fecha o modal se clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('cart-modal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

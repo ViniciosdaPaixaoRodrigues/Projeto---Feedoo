@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo - Delivery</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="catalog-page">
+    <header class="navbar">
+        <nav class="nav-container">
+            <div class="nav-left">
+                <a href="index.html" class="nav-item logo-btn">Logo</a>
+                <a href="catalog.html" class="nav-item active">Home</a>
+                <a href="about.html" class="nav-item">About</a>
+                <a href="#" class="nav-item" onclick="toggleCart()">Cart</a>
+            </div>
+            <div class="nav-right">
+                <a href="login.html" class="nav-item enter-btn">Entrar</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="catalog-container">
+        <aside class="sidebar">
+            <ul class="category-list">
+                <li class="category-item active" onclick="filterCategory('lanches', this)">Lanches</li>
+                <li class="category-item" onclick="filterCategory('doces', this)">Doces</li>
+                <li class="category-item" onclick="filterCategory('porcoes', this)">Porções</li>
+                <li class="category-item" onclick="filterCategory('pizza', this)">Pizza</li>
+                <li class="category-item" onclick="filterCategory('bebidas', this)">Bebidas</li>
+                <li class="category-item" onclick="filterCategory('saladas', this)">Saladas</li>
+            </ul>
+        </aside>
+        <main class="product-grid" id="product-grid"></main>
+    </div>
+
+    <!-- Modal do Carrinho -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <span class="close-cart" onclick="toggleCart()">&times;</span>
+            <div class="cart-summary-view">
+                <h2 class="cart-title">Tela de Carrinho</h2>
+                <div class="cart-item-row">
+                    <div class="item-img-placeholder"><i class="fa-solid fa-xmark"></i></div>
+                    <div class="item-details">
+                        <div class="detail-group">
+                            <span>Nome:</span>
+                            <div class="value-box">Hambúrguer Clássico</div>
+                        </div>
+                        <div class="detail-group">
+                            <span>Preço:</span>
+                            <div class="value-box">R$ 25,00</div>
+                        </div>
+                    </div>
+                    <div class="quantity-controls">
+                        <button class="qty-btn">-</button>
+                        <span class="qty-value">1</span>
+                        <button class="qty-btn">+</button>
+                    </div>
+                </div>
+                <button class="checkout-btn">Comprar agora</button>
+            </div>
+            <hr class="cart-divider">
+            <div class="product-detail-view">
+                <div class="detail-header"><h3>Hambúrguer Clássico</h3></div>
+                <div class="detail-body">
+                    <div class="detail-img-large"><i class="fa-solid fa-xmark"></i></div>
+                    <div class="detail-info">
+                        <div class="price-section"><span>Preço:</span><div class="value-box">R$ 25,00</div></div>
+                        <div class="info-section"><span>Informações:</span><p class="info-text">Pão brioche artesanal, blend de carne bovina 180g, queijo cheddar derretido, alface crocante, tomate fresco e nossa maionese especial da casa.</p></div>
+                    </div>
+                </div>
+                <button class="checkout-btn">Comprar agora</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, category: 'lanches', name: 'Hambúrguer Clássico', img: 'assets/products/lanches.jpg' },
+            { id: 2, category: 'lanches', name: 'X-Salada Especial', img: 'assets/products/lanches.jpg' },
+            { id: 3, category: 'doces', name: 'Macarons Coloridos', img: 'assets/products/doces.jpg' },
+            { id: 4, category: 'doces', name: 'Cupcake de Morango', img: 'assets/products/doces.jpg' },
+            { id: 5, category: 'porcoes', name: 'Batata Frita Crocante', img: 'assets/products/porcoes.jpg' },
+            { id: 6, category: 'pizza', name: 'Pizza Pepperoni', img: 'assets/products/pizza.jpg' },
+            { id: 7, category: 'pizza', name: 'Pizza Margherita', img: 'assets/products/pizza.jpg' },
+            { id: 8, category: 'bebidas', name: 'Sucos Naturais', img: 'assets/products/bebidas.jpg' },
+            { id: 9, category: 'saladas', name: 'Salada Caesar', img: 'assets/products/saladas.jpg' }
+        ];
+
+        function filterCategory(category, element) {
+            document.querySelectorAll('.category-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+            const filtered = products.filter(p => p.category === category);
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${product.img}" alt="${product.name}">
+                    <div class="product-info">
+                        <p>${product.name}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        window.onload = () => {
+            const firstCategory = document.querySelector('.category-item');
+            filterCategory('lanches', firstCategory);
+        };
+    </script>
+</body>
+</html>
