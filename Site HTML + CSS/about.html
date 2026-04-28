@@ -15,7 +15,7 @@
                 <a href="index.html" class="nav-item logo-btn">Logo</a>
                 <a href="catalog.html" class="nav-item">Home</a>
                 <a href="about.html" class="nav-item active">About</a>
-                <a href="/cart" class="nav-item" onclick="toggleCart()">Cart</a>
+                <a href="#" class="nav-item" onclick="toggleCart()">Cart</a>
             </div>
             <div class="nav-right">
                 <a href="login.html" class="nav-item enter-btn">Entrar</a>
@@ -115,13 +115,10 @@
             modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
         }
 
-        // Fecha o modal se clicar fora dele
-        window.onclick = function(event) {
-            const modal = document.getElementById('cart-modal');
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+        window.onload = () => {
+            const firstCategory = document.querySelector('.category-item');
+            filterCategory('lanches', firstCategory);
+        };
     </script>
 </body>
 </html>
