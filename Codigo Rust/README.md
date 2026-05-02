@@ -9,8 +9,8 @@ Este é um projeto exemplo em Rust que demonstra como se conectar a um banco de 
 3.  **Dependências do Sistema**: No Linux, você pode precisar de `libssl-dev` e `libmysqlclient-dev`.
 
 ## Configuração
-
-1.  Edite o arquivo `.env` e insira as credenciais do seu banco de dados na variável `DATABASE_URL`.
+1.  Rode o script do MySQL conforme fornecido neste repositório, ele deve ser capaz de criar todas as tabelas necessárias para que o rust funcione normalmente.
+2.  Edite o arquivo `.env` e insira as credenciais do seu banco de dados na variável `DATABASE_URL`.
 
 ## Como Executar
 
