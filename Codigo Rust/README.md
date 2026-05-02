@@ -23,13 +23,17 @@ Observação:
     Ao cadastrar um usuário, não será possível escolher nenhum produto disponível até que as tabelas de 
 produtos sejam atualizadas. Para isto, faça uma das opções:
 1. Cadastre uma conta de Empresa (Simples e intuitiva)
+
     1.1. Cadastre uma Loja
     1.2. Cadastre pelo menos 1 produto
     1.3. Deslogue e entre como um usuário, será possível adicionar itens ao carrinho normalmente.
-2. No MySQL, insira manualmente através de scripts.
+   
+3. No MySQL, insira manualmente através de scripts.
+
     2.1. Primeiro, insira com um INSERT uma Loja conectada a um perfil_empresa
     2.2. Depois, insira pelo menos 1 produto conectada a esta loja.
     2.3. Desloque e entre como um usuário, se tudo correr bem, será possível adicionar carrinhos normalmente
+
 ## Estrutura do Projeto
 
 - `src/main.rs`: Contém a lógica de conexão, inserção e consulta.
