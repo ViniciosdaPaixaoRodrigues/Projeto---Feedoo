@@ -15,6 +15,8 @@ Este é um projeto exemplo em Rust que demonstra como se conectar a um banco de 
 ## Como Executar
 
 Para rodar o projeto:
+1. Salve os arquivos dessa pasta "Codigo Rust" em algum lugar de seu computador;
+2. Com tudo devidamente extraído, abra o Visual Studio Code ou use o terminal e abra essa pasta.
 ```bash
 cargo run
 ```
