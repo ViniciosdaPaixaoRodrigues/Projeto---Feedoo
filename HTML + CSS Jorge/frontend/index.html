@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedoo Delivery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">🍔 Feedoo</div>
+
+  <div class="location">📍 São Paulo</div>
+
+  <div class="search">
+    <input type="text" id="busca" placeholder="Busque por item ou loja">
+  </div>
+
+  <div class="actions">
+    <button onclick="toggleCarrinho()">🛒</button>
+    <button class="login">Entrar</button>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>O que você quer comer hoje?</h1>
+  <input type="text" placeholder="Buscar restaurantes ou pratos...">
+</section>
+
+<section class="categorias">
+  <div class="categoria">🍔 Lanches</div>
+  <div class="categoria">🍕 Pizza</div>
+  <div class="categoria">🍣 Japonesa</div>
+  <div class="categoria">🥗 Saudável</div>
+  <div class="categoria">🍰 Doces</div>
+</section>
+
+<section class="banner">
+  <h2>🔥 Promoção do dia</h2>
+  <p>Até 30% OFF</p>
+</section>
+
+<section class="section">
+  <h2>Restaurantes</h2>
+  <div id="produtos" class="grid"></div>
+</section>
+
+<!-- CARRINHO -->
+<div id="carrinho" class="carrinho hidden">
+  <h2>🛒 Carrinho</h2>
+  <div id="itens"></div>
+  <div id="total"></div>
+  <button onclick="finalizarPedido()">Finalizar</button>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+  <div class="modal-box">
+    <img id="modalImg">
+    <h2 id="modalNome"></h2>
+    <p id="modalPreco"></p>
+    <button onclick="adicionarCarrinho()">Adicionar</button>
+    <button onclick="fecharModal()">Cancelar</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
