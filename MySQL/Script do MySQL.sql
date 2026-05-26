@@ -19,12 +19,12 @@ chaves pix, cartão de crédito, etc.
 consiga acompanhar informações do pedido, como status de entrega e prazo.
 Além de detalhar qual loja foi feito o pedido.
 
-	Perfil_Empresa → Tabela pai. Também tem poderes administrativos sobre
+	perfil_empresa → Tabela pai. Também tem poderes administrativos sobre
 os perfís que a loja cria. Ao cadastrar lojas e produtos, consegue alterar
 informações. Como produtos cadastrados, tirar e adicionar produtos, alterar
 preço, etc.
 	
-    Lojas → Tabela filha de Perfil_Empresa, onde inclui informações mais específicas
+    Lojas → Tabela filha de perfil_empresa, onde inclui informações mais específicas
 como endereço da loja, horário de atendimento, se conecta com a tabela produtos para
 poder gerenciar estoques.
     
@@ -36,20 +36,21 @@ busca futura.*/
 CREATE SCHEMA IF NOT EXISTS bd_semnome; 
 USE bd_semnome;
 
--- 1. Perfil_Empresa
-CREATE TABLE IF NOT EXISTS Perfil_Empresa (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL,
-    Email VARCHAR(255) NOT NULL,
-    Tipo ENUM('PJ', 'PF') NOT NULL,
-    CNPJ CHAR(18),
-    CPF CHAR(14),
+-- 1. perfil_empresa
+CREATE TABLE IF NOT EXISTS perfil_empresa (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    senha CHAR(32) NOT NULL,
+    tipo ENUM('PJ', 'PF') NOT NULL,
+    cnpj CHAR(18),
+    cpf CHAR(14),
     
-    Descricao TEXT,
-    Logo_URL VARCHAR(255),
+    descricao TEXT,
+    logo_url VARCHAR(255),
     
-    Data_Cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Ultima_Atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ultima_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
     /*----------------------------------------
 			Explicação do Constraint
@@ -59,47 +60,47 @@ CREATE TABLE IF NOT EXISTS Perfil_Empresa (
     de cadastar um CNPJ por exemplo.
     */
     CONSTRAINT chk_documento CHECK (
-        (Tipo = 'PJ' AND CNPJ IS NOT NULL) OR 
-        (Tipo = 'PF' AND CPF IS NOT NULL)
+        (Tipo = 'PJ' AND cnpj IS NOT NULL) OR 
+        (Tipo = 'PF' AND cpf IS NOT NULL)
     )
 );
 
 -- 2. Lojas
-CREATE TABLE IF NOT EXISTS Lojas (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Empresa_ID INT NOT NULL,
-    Nome VARCHAR(150) NOT NULL,
-    Descricao TEXT,
-    Telefone VARCHAR(20),
-    Email VARCHAR(255),
-    CEP CHAR(8),
-    Logradouro VARCHAR(150),
-    Numero VARCHAR(10),
-    Complemento VARCHAR(100),
-    Bairro VARCHAR(100),
-    Cidade VARCHAR(100),
-    Estado CHAR(2),
-    Latitude DECIMAL(10,8),
-    Longitude DECIMAL(11,8),
-    Horario_Abertura TIME,
-    Horario_Fechamento TIME,
-    Ativa BOOLEAN DEFAULT TRUE,
-    Aceita_Pedidos BOOLEAN DEFAULT TRUE,
-    Data_Cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Ultima_Atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (Empresa_ID) REFERENCES Perfil_Empresa(ID)
+CREATE TABLE IF NOT EXISTS lojas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    empresa_id INT NOT NULL,
+    nome VARCHAR(150) NOT NULL,
+    descricao TEXT,
+    telefone VARCHAR(20),
+    email VARCHAR(255),
+    cep CHAR(8),
+    logradouro VARCHAR(150),
+    numero VARCHAR(10),
+    complemento VARCHAR(100),
+    bairro VARCHAR(100),
+    cidade VARCHAR(100),
+    estado CHAR(2),
+    latitude DECIMAL(10,8),
+    longitude DECIMAL(11,8),
+    horario_abertura TIME,
+    horario_fechamento TIME,
+    ativa BOOLEAN DEFAULT TRUE,
+    aceita_pedidos BOOLEAN DEFAULT TRUE,
+    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ultima_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (empresa_id) REFERENCES perfil_empresa(id)
 );
 
 -- 3. Produtos
-CREATE TABLE IF NOT EXISTS Produtos (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Loja_ID INT NOT NULL,
-    Nome VARCHAR(150) NOT NULL,
-    Descricao TEXT,
+CREATE TABLE IF NOT EXISTS produtos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    loja_id INT NOT NULL,
+    nome VARCHAR(150) NOT NULL,
+    descricao TEXT,
     Preco DECIMAL(10,2) NOT NULL,
     /*----------------------
 	-- Estoque
-    Quantidade define quantas
+    quantidade define quantas
     unidades de um produto 
     estão disponíveis
     
@@ -109,66 +110,66 @@ CREATE TABLE IF NOT EXISTS Produtos (
     haver um alerta no 
     aplicativo/site
     ----------------------*/
-    Quantidade INT DEFAULT 0,
-    Aviso_reposicao INT DEFAULT 0,
+    quantidade INT DEFAULT 0,
+    aviso_reposicao INT DEFAULT 0,
     
-    Disponivel BOOLEAN DEFAULT TRUE,
-    Categoria VARCHAR(100),
-    Imagem_URL VARCHAR(255) NOT NULL,
+    disponivel BOOLEAN DEFAULT TRUE,
+    categoria VARCHAR(100),
+    imagem_url VARCHAR(255) NOT NULL,
     
-    Total_Vendas INT DEFAULT 0,
-    Tempo_Preparo INT,
+    total_vendas INT DEFAULT 0,
+    tempo_preparo INT,
     
-    Data_Cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
-    Ultima_Atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (Loja_ID) REFERENCES Lojas(ID)
+    data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    ultima_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (loja_id) REFERENCES Lojas(id)
 );
 
--- 4. Usuario (CORREÇÃO: Removida vírgula extra e ajustado tipo do Telefone)
-CREATE TABLE IF NOT EXISTS Usuario (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Nome VARCHAR(100) NOT NULL,
-    Email VARCHAR(255) UNIQUE,
-    Telefone VARCHAR(20) NOT NULL, -- Alterado de INT para VARCHAR para suportar números longos e DDD
-    Endereço VARCHAR(255) NOT NULL,
-    Senha CHAR(32) NOT NULL,
-    Data_registro DATE,
-    Status_usuario ENUM('Ativo', 'Fechado', 'Suspenso', 'Banido') NOT NULL
+-- 4. Usuario (CORREÇÃO: Removida vírgula extra e ajustado tipo do telefone)
+CREATE TABLE IF NOT EXISTS usuario (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    email VARCHAR(255) UNIQUE,
+    telefone VARCHAR(20) NOT NULL, -- Alterado de INT para VARCHAR para suportar números longos e DDD
+    endereco VARCHAR(255) NOT NULL,
+    senha CHAR(32) NOT NULL,
+    data_registro DATE,
+    status_usuario ENUM('Ativo', 'Fechado', 'Suspenso', 'Banido') NOT NULL
 );
 
 -- 5. Metodos_Pagamento
-CREATE TABLE IF NOT EXISTS Metodos_Pagamento (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    usuario_ID INT NOT NULL,
+CREATE TABLE IF NOT EXISTS metodos_pagamento (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
     tipo ENUM('cartao_credito', 'boleto', 'pix') NOT NULL,
     final_cartao CHAR(4),
     bandeira VARCHAR(50),
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (usuario_ID) REFERENCES Usuario(ID)
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
 -- 6. Carrinho (CORREÇÃO: Adicionado AUTO_INCREMENT)
-CREATE TABLE IF NOT EXISTS Carrinho (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Usuario_ID INT NOT NULL,
-    Valor_total DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (Usuario_ID) REFERENCES Usuario(ID)
+CREATE TABLE IF NOT EXISTS carrinho (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    valor_total DECIMAL(10, 2) NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id)
 );
 
 -- 7. Carrinho_Itens
-CREATE TABLE IF NOT EXISTS Carrinho_Itens (
-    ID INT AUTO_INCREMENT PRIMARY KEY,
-    Carrinho_ID INT NOT NULL,
-    Produto_ID INT NOT NULL,
+CREATE TABLE IF NOT EXISTS carrinho_itens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    carrinho_id INT NOT NULL,
+    produto_id INT NOT NULL,
     
-    Quantidade INT NOT NULL DEFAULT 1,
-    Preco_Unitario DECIMAL(10,2) NOT NULL,
-    Subtotal DECIMAL(10,2) GENERATED ALWAYS AS (Quantidade * Preco_Unitario) STORED,
+    quantidade INT NOT NULL DEFAULT 1,
+    preco_unitario DECIMAL(10,2) NOT NULL,
+    subtotal DECIMAL(10,2) GENERATED ALWAYS AS (quantidade * preco_unitario) STORED,
     /*SOBRE O GENERATED AWAYS AS:
     Esse valor é sempre gerado automaticamente usando essa fórmula
 
 	Você não pode fazer INSERT manual nele.*/
     
-    FOREIGN KEY (Carrinho_ID) REFERENCES Carrinho(ID),
-    FOREIGN KEY (Produto_ID) REFERENCES Produtos(ID)
+    FOREIGN KEY (carrinho_id) REFERENCES carrinho(id),
+    FOREIGN KEY (produto_id) REFERENCES produtos(id)
 );
