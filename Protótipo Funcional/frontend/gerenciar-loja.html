@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciar Loja - Elite Delivery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <div class="header-left">
+      <button class="btn btn-ghost" onclick="window.location.href='dashboard-empresa.html'">← Voltar</button>
+      <h1 class="logo">🍐 Elite Centro</h1>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container">
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="produtos">Produtos</button>
+    <button class="tab-btn" data-tab="horarios">Horários</button>
+    <button class="tab-btn" data-tab="estoque">Estoque Baixo</button>
+  </div>
+
+  <!-- Produtos Tab -->
+  <div id="produtos" class="tab-content active">
+    <div class="section-header">
+      <div>
+        <h2>Produtos Cadastrados</h2>
+        <p class="subtitle">Total: <span id="totalProdutos">0</span> produtos</p>
+      </div>
+      <button class="btn btn-primary" onclick="openNovoProdutoModal()">+ Novo Produto</button>
+    </div>
+
+    <div id="produtosGrid" class="grid grid-3">
+      <!-- Produtos serão inseridos aqui -->
+    </div>
+  </div>
+
+  <!-- Horários Tab -->
+  <div id="horarios" class="tab-content">
+    <div class="card">
+      <h2>Horário de Funcionamento</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="horario-abertura">Horário de Abertura</label>
+          <input type="time" id="horario-abertura" value="10:00">
+        </div>
+        <div class="form-group">
+          <label for="horario-fechamento">Horário de Fechamento</label>
+          <input type="time" id="horario-fechamento" value="23:00">
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="saveHorarios()">Salvar Horários</button>
+    </div>
+  </div>
+
+  <!-- Estoque Baixo Tab -->
+  <div id="estoque" class="tab-content">
+    <h2>Produtos com Estoque Baixo</h2>
+    <div id="estoqueGrid">
+      <!-- Produtos com estoque baixo serão inseridos aqui -->
+    </div>
+  </div>
+</main>
+
+<!-- Modal Novo/Editar Produto -->
+<div id="modalProduto" class="modal hidden">
+  <div class="modal-content modal-lg">
+    <div class="modal-header">
+      <h2 id="modalProdutoTitle">Criar Novo Produto</h2>
+      <button class="modal-close" onclick="closeModal('modalProduto')">×</button>
+    </div>
+
+    <form id="formProduto" onsubmit="handleSaveProduto(event)">
+      <div class="form-grid">
+        <!-- Nome -->
+        <div class="form-group col-2">
+          <label for="prod-nome">Nome do Produto *</label>
+          <input type="text" id="prod-nome" placeholder="Ex: X-Burger" required>
+        </div>
+
+        <!-- Descrição -->
+        <div class="form-group col-2">
+          <label for="prod-descricao">Descrição</label>
+          <input type="text" id="prod-descricao" placeholder="Descrição do produto">
+        </div>
+
+        <!-- Categoria -->
+        <div class="form-group">
+          <label for="prod-categoria">Categoria *</label>
+          <select id="prod-categoria" required>
+            <option value="Lanches">Lanches</option>
+            <option value="Acompanhamentos">Acompanhamentos</option>
+            <option value="Bebidas">Bebidas</option>
+            <option value="Doces">Doces</option>
+            <option value="Saudável">Saudável</option>
+          </select>
+        </div>
+
+        <!-- Preço -->
+        <div class="form-group">
+          <label for="prod-preco">Preço (R$) *</label>
+          <input type="number" id="prod-preco" step="0.01" placeholder="0.00" required>
+        </div>
+
+        <!-- Quantidade -->
+        <div class="form-group">
+          <label for="prod-quantidade">Quantidade em Estoque</label>
+          <input type="number" id="prod-quantidade" placeholder="0">
+        </div>
+
+        <!-- Aviso Reposição -->
+        <div class="form-group">
+          <label for="prod-aviso">Aviso de Reposição</label>
+          <input type="number" id="prod-aviso" placeholder="0">
+        </div>
+
+        <!-- Tempo Preparo -->
+        <div class="form-group">
+          <label for="prod-tempo">Tempo de Preparo (min)</label>
+          <input type="number" id="prod-tempo" placeholder="15">
+        </div>
+
+        <!-- Imagem URL -->
+        <div class="form-group col-2">
+          <label for="prod-imagem">URL da Imagem</label>
+          <input type="text" id="prod-imagem" placeholder="https://...">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalProduto')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="gerenciar-loja.js"></script>
+</body>
+</html>

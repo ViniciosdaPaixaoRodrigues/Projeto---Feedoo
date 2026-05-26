@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro Cliente - Elite Delivery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-box">
+    <!-- Header -->
+    <div class="login-header">
+      <h1>🍔 Elite</h1>
+      <p>Criar Conta como Cliente</p>
+    </div>
+
+    <!-- Form -->
+    <form id="cadastroForm" onsubmit="handleCadastro(event)">
+      <!-- Nome -->
+      <div class="form-group">
+        <label for="nome">Nome Completo *</label>
+        <input type="text" id="nome" placeholder="Seu nome completo" required>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email *</label>
+        <input type="email" id="email" placeholder="seu@email.com" required>
+      </div>
+
+      <!-- Telefone -->
+      <div class="form-group">
+        <label for="telefone">Telefone *</label>
+        <input type="tel" id="telefone" placeholder="(11) 99999-0000" required>
+      </div>
+
+      <!-- Endereço -->
+      <div class="form-group">
+        <label for="endereco">Endereço *</label>
+        <input type="text" id="endereco" placeholder="Rua, número, bairro" required>
+      </div>
+
+      <!-- Senha -->
+      <div class="form-group">
+        <label for="senha">Senha *</label>
+        <input type="password" id="senha" placeholder="Mínimo 6 caracteres" required>
+      </div>
+
+      <!-- Confirmar Senha -->
+      <div class="form-group">
+        <label for="confirmarSenha">Confirmar Senha *</label>
+        <input type="password" id="confirmarSenha" placeholder="Confirme sua senha" required>
+      </div>
+
+      <!-- Termos -->
+      <div class="form-group checkbox">
+        <input type="checkbox" id="termos" required>
+        <label for="termos">Concordo com os Termos de Serviço e Política de Privacidade</label>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Criar Conta</button>
+    </form>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>Já tem conta?</span>
+    </div>
+
+    <!-- Login Link -->
+    <button class="btn btn-outline" onclick="window.location.href='login-cliente.html'">
+      Entrar
+    </button>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p>É uma empresa? <a href="cadastro-empresa.html">Cadastrar como Empresa</a></p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .checkbox input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+  }
+
+  .checkbox label {
+    margin: 0;
+    font-size: 13px;
+    cursor: pointer;
+  }
+</style>
+
+<script src="cadastro-cliente.js"></script>
+</body>
+</html>
