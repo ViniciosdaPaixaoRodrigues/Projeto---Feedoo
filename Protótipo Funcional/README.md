@@ -340,7 +340,7 @@ Este projeto é desenvolvido como trabalho acadêmico. Todos os direitos reserva
 
 **Desenvolvido com dedicação, aprendizado e muito café ☕**
 
-![Visual Studio Code](https://custom-icon-badges.demolab.com/badge/Visual%20Studio%20Code-0078d7.svg?logo=visualstudiocode&logoColor=white)](#)
+![Visual Studio Code](https://custom-icon-badges.demolab.com/badge/Visual%20Studio%20Code-0078d7.svg?logo=visualstudiocode&logoColor=white)
 ![Rust](https://img.shields.io/badge/Rust-1.70+-orange?style=flat-square&logo=rust)
 ![Actix-web](https://img.shields.io/badge/Actix--web-4.x-blue?style=flat-square)
 ![MySQL](https://img.shields.io/badge/MySQL-8.0+-blue?style=flat-square&logo=mysql)
