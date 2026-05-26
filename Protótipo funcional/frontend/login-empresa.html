@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Empresa - Elite Delivery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-box">
+    <!-- Header -->
+    <div class="login-header">
+      <h1>🍐 Elite Empresa</h1>
+      <p>Gerenciar suas lojas</p>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="pf">Pessoa Física</button>
+      <button class="tab-btn" data-tab="pj">Pessoa Jurídica</button>
+    </div>
+
+    <!-- PF Tab -->
+    <div id="pf" class="tab-content active">
+      <form onsubmit="handleLogin(event, 'PF')">
+        <div class="form-group">
+          <label for="email-pf">Email</label>
+          <input type="email" id="email-pf" placeholder="seu@email.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="senha-pf">Senha</label>
+          <input type="password" id="senha-pf" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+    </div>
+
+    <!-- PJ Tab -->
+    <div id="pj" class="tab-content">
+      <form onsubmit="handleLogin(event, 'PJ')">
+        <div class="form-group">
+          <label for="email-pj">Email</label>
+          <input type="email" id="email-pj" placeholder="contato@empresa.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="senha-pj">Senha</label>
+          <input type="password" id="senha-pj" placeholder="••••••••" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Entrar</button>
+      </form>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>Novo por aqui?</span>
+    </div>
+
+    <!-- Sign Up -->
+    <button class="btn btn-outline" onclick="window.location.href='cadastro-empresa.html'">
+      Criar Conta de Empresa
+    </button>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p>É um cliente? <a href="login-cliente.html">Entrar como Cliente</a></p>
+    </div>
+  </div>
+</div>
+
+<script src="login-empresa.js"></script>
+</body>
+</html>

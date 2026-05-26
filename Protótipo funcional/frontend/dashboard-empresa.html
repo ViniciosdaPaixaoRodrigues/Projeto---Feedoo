@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Empresa - Elite Delivery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <h1 class="logo">🏪 Minhas Lojas</h1>
+    <button class="btn btn-ghost" onclick="handleLogout()">Sair</button>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="container">
+  <div class="dashboard-header">
+    <div>
+      <h2>Gerenciar Lojas</h2>
+      <p class="subtitle">Total de lojas: <span id="totalLojas">1</span></p>
+    </div>
+    <button class="btn btn-primary" onclick="openNovaLojaModal()">+ Nova Loja</button>
+  </div>
+
+  <!-- Lojas Grid -->
+  <div id="lojasGrid" class="grid grid-3">
+    <!-- Lojas serão inseridas aqui via JavaScript -->
+  </div>
+</main>
+
+<!-- Modal Nova/Editar Loja -->
+<div id="modalLoja" class="modal hidden">
+  <div class="modal-content modal-lg">
+    <div class="modal-header">
+      <h2 id="modalTitle">Criar Nova Loja</h2>
+      <button class="modal-close" onclick="closeModal('modalLoja')">×</button>
+    </div>
+
+    <form id="formLoja" onsubmit="handleSaveLoja(event)">
+      <div class="form-grid">
+        <!-- Nome -->
+        <div class="form-group col-2">
+          <label for="loja-nome">Nome da Loja *</label>
+          <input type="text" id="loja-nome" placeholder="Ex: Feedoo Centro" required>
+        </div>
+
+        <!-- Descrição -->
+        <div class="form-group col-2">
+          <label for="loja-descricao">Descrição</label>
+          <input type="text" id="loja-descricao" placeholder="Descrição da loja">
+        </div>
+
+        <!-- Telefone -->
+        <div class="form-group">
+          <label for="loja-telefone">Telefone</label>
+          <input type="tel" id="loja-telefone" placeholder="(11) 99999-0000">
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="loja-email">Email *</label>
+          <input type="email" id="loja-email" placeholder="loja@email.com" required>
+        </div>
+
+        <!-- CEP -->
+        <div class="form-group">
+          <label for="loja-cep">CEP</label>
+          <input type="text" id="loja-cep" placeholder="01310100">
+        </div>
+
+        <!-- Logradouro -->
+        <div class="form-group">
+          <label for="loja-logradouro">Logradouro</label>
+          <input type="text" id="loja-logradouro" placeholder="Avenida, Rua, etc">
+        </div>
+
+        <!-- Número -->
+        <div class="form-group">
+          <label for="loja-numero">Número</label>
+          <input type="text" id="loja-numero" placeholder="1000">
+        </div>
+
+        <!-- Bairro -->
+        <div class="form-group">
+          <label for="loja-bairro">Bairro</label>
+          <input type="text" id="loja-bairro" placeholder="Bairro">
+        </div>
+
+        <!-- Cidade -->
+        <div class="form-group">
+          <label for="loja-cidade">Cidade</label>
+          <input type="text" id="loja-cidade" placeholder="São Paulo">
+        </div>
+
+        <!-- Estado -->
+        <div class="form-group">
+          <label for="loja-estado">Estado</label>
+          <input type="text" id="loja-estado" placeholder="SP" maxlength="2">
+        </div>
+
+        <!-- Horário Abertura -->
+        <div class="form-group">
+          <label for="loja-abertura">Horário de Abertura</label>
+          <input type="time" id="loja-abertura" value="10:00">
+        </div>
+
+        <!-- Horário Fechamento -->
+        <div class="form-group">
+          <label for="loja-fechamento">Horário de Fechamento</label>
+          <input type="time" id="loja-fechamento" value="23:00">
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalLoja')">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="dashboard-empresa.js"></script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Cliente - Elite Delivery</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="login-container">
+  <div class="login-box">
+    <!-- Header -->
+    <div class="login-header">
+      <h1>🍔 Elite</h1>
+      <p>Entrar como Cliente</p>
+    </div>
+
+    <!-- Form -->
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="seu@email.com" required>
+      </div>
+
+      <div class="form-group">
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" placeholder="••••••••" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Entrar</button>
+    </form>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>Novo por aqui?</span>
+    </div>
+
+    <!-- Sign Up -->
+    <button class="btn btn-outline" onclick="window.location.href='cadastro-cliente.html'">
+      Criar Conta
+    </button>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p>É uma empresa? <a href="login-empresa.html">Entrar como Empresa</a></p>
+    </div>
+  </div>
+</div>
+
+<script src="login-cliente.js"></script>
+</body>
+</html>
