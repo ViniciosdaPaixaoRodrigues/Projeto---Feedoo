@@ -29,6 +29,37 @@ Criar um sistema web completo que permita:
 
 ---
 
+## Como Executar
+
+### Pré-requisitos
+- Rust 1.70+
+- MySQL 8.0+
+- Cargo
+
+### Instalação
+
+```bash
+# 1. Clone o repositório
+git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto---Feedoo
+cd "Protótipo Funcional"
+
+# 2. Configure o banco de dados
+# Execute o script SQL em: Projeto---Feedoo/MySQL/Script do MySQL.sql
+
+# 3. Configure as variáveis de ambiente
+# Edite o arquivo .env com suas credenciais
+
+# 4. Instale as dependências
+cargo build
+
+# 5. Execute o servidor
+cargo run
+```
+
+O servidor estará disponível em: **http://localhost:3001**
+
+---
+
 ## Habilidades Demonstradas
 
 ### 1. **Programação em Rust** 
@@ -215,37 +246,6 @@ DELETE /api/empresas/{empresa_id}/lojas/{loja_id}
 ```
 
 **Total: 10 endpoints RESTful**
-
----
-
-## Como Executar
-
-### Pré-requisitos
-- Rust 1.70+
-- MySQL 8.0+
-- Cargo
-
-### Instalação
-
-```bash
-# 1. Clone o repositório
-git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto---Feedoo
-cd "Protótipo Funcional"
-
-# 2. Configure o banco de dados
-# Execute o script SQL em: Projeto---Feedoo/MySQL/Script do MySQL.sql
-
-# 3. Configure as variáveis de ambiente
-# Edite .env com suas credenciais
-
-# 4. Instale as dependências
-cargo build
-
-# 5. Execute o servidor
-cargo run
-```
-
-O servidor estará disponível em: **http://localhost:3001**
 
 ---
 
