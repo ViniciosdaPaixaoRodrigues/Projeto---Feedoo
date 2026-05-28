@@ -38,21 +38,24 @@ Criar um sistema web completo que permita:
 
 ### Instalação
 
-```bash
 # 1. Clone o repositório
+```bash
 git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto---Feedoo
 cd "Protótipo Funcional"
+```
 
 # 2. Configure o banco de dados
-# Execute o script SQL em: Projeto---Feedoo/MySQL/Script do MySQL.sql
+Execute o script SQL em: Projeto---Feedoo/MySQL/Script do MySQL.sql
 
 # 3. Configure as variáveis de ambiente
-# Edite o arquivo .env com suas credenciais
+Edite o arquivo .env com suas credenciais
 
 # 4. Instale as dependências
+```bash
 cargo build
-
+```
 # 5. Execute o servidor
+```bash
 cargo run
 ```
 
