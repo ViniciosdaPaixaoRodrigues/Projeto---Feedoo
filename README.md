@@ -41,7 +41,6 @@ Criar um sistema web completo que permita:
 # 1. Clone o repositório
 ```bash
 git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto---Feedoo
-cd "Protótipo Funcional"
 ```
 
 # 2. Configure o banco de dados
