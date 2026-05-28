@@ -75,6 +75,9 @@ async function handleCadastro(event) {
     localStorage.setItem('user_type', 'usuario');
     localStorage.setItem('user_email', dadosCadastro.email);
 
+    // Redirecionar para a tela home
+    window.location.href = '/';
+
   } catch (error) {
     console.error('Erro:', error);
     alert('Erro ao conectar com o servidor: ' + error.message);

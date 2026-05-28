@@ -22,7 +22,7 @@ async fn main() -> std::io::Result<()> {
         .unwrap_or_else(|_| "3001".to_string())
         .parse::<u16>()
         .unwrap_or(3001);
-    let cors_origin = env::var("CORS_ORIGIN").unwrap_or_else(|_| "http://localhost:8000".to_string());
+    //let cors_origin = env::var("CORS_ORIGIN").unwrap_or_else(|_| "http://localhost:8000".to_string());
 
     // Criar pool de conexões
     let pool = MySqlPoolOptions::new()
@@ -37,7 +37,9 @@ async fn main() -> std::io::Result<()> {
     // Iniciar servidor HTTP
     HttpServer::new(move || {
         let cors = Cors::default()
-            .allowed_origin(&cors_origin)
+            .allowed_origin("http://localhost:8000" )
+            .allowed_origin("http://127.0.0.1:3001" )
+            .allowed_origin("http://localhost:3001" )
             .allowed_methods(vec!["GET", "POST", "PUT", "DELETE", "OPTIONS"])
             .allowed_headers(vec!["Content-Type", "Authorization"])
             .max_age(3600);
