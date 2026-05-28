@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 use sqlx::FromRow;
+use chrono::{DateTime, Utc};
 
 // ============================================
 // USUÁRIO (Cliente)
@@ -79,12 +80,18 @@ pub struct Loja {
     pub cep: Option<String>,
     pub logradouro: Option<String>,
     pub numero: Option<String>,
+    pub complemento: Option<String>,
     pub bairro: Option<String>,
     pub cidade: Option<String>,
     pub estado: Option<String>,
-    pub horario_abertura: Option<String>,
-    pub horario_fechamento: Option<String>,
+    pub latitude: Option<f64>,
+    pub longitude: Option<f64>,
+    pub horario_abertura: Option<chrono::NaiveTime>,
+    pub horario_fechamento: Option<chrono::NaiveTime>,
     pub ativa: bool,
+    pub aceita_pedidos: bool,
+    pub data_cadastro: DateTime<Utc>,
+    pub ultima_atualizacao: DateTime<Utc>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -131,12 +138,15 @@ pub struct Produto {
     pub nome: String,
     pub descricao: Option<String>,
     pub preco: sqlx::types::Decimal,
-    pub quantidade: i32,
+    pub quantidade: Option<i32>,
     pub aviso_reposicao: Option<i32>,
+    pub disponivel: Option<bool>,
     pub categoria: Option<String>,
-    pub imagem_url: Option<String>,
+    pub imagem_url: String,
+    pub total_vendas: Option<i32>,
     pub tempo_preparo: Option<i32>,
-    pub disponivel: bool,
+    pub data_cadastro: Option<DateTime<Utc>>,
+    pub ultima_atualizacao: Option<DateTime<Utc>>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]

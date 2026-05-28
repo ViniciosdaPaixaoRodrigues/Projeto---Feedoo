@@ -1,4 +1,4 @@
-// Cadastro Empresa - JavaScript
+// Cadastro Empresa - JavaScript (CORRIGIDO)
 
 // Tabs functionality
 document.querySelectorAll('.tab-btn').forEach(btn => {
@@ -16,13 +16,10 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // Set first tab as active
 document.querySelector('.tab-btn').classList.add('active');
 
-function handleCadastro(event, tipo) {
+async function handleCadastro(event, tipo) {
   event.preventDefault();
 
-  let dadosCadastro = {
-    tipo_usuario: tipo,
-    status_usuario: 'Ativo'
-  };
+  let dadosCadastro = {};
 
   if (tipo === 'PF') {
     const nome = document.getElementById('nome-pf').value;
@@ -62,13 +59,13 @@ function handleCadastro(event, tipo) {
       return;
     }
 
+    // FORMATO CORRETO PARA O BACKEND
     dadosCadastro = {
-      ...dadosCadastro,
+      tipo: 'PF',
       nome,
       cpf,
+      cnpj: null,
       email,
-      telefone,
-      descricao,
       senha
     };
 
@@ -111,34 +108,46 @@ function handleCadastro(event, tipo) {
       return;
     }
 
+    // FORMATO CORRETO PARA O BACKEND
     dadosCadastro = {
-      ...dadosCadastro,
-      nome_empresa: nomeEmpresa,
+      tipo: 'PJ',
+      nome: nomeEmpresa,
+      cpf: null,
       cnpj,
       email,
-      telefone,
-      responsavel,
-      descricao,
       senha
     };
   }
 
-  console.log('Cadastro Empresa:', dadosCadastro);
+  console.log('Enviando cadastro:', dadosCadastro);
 
-  // Simulando cadastro (será integrado com MySQLx de Rust)
-  // Aqui você faria uma chamada POST para sua API:
-  // fetch('http://seu-backend/api/empresas/cadastro', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(dadosCadastro)
-  // })
+  // FAZER CHAMADA À API
+  try {
+    const response = await fetch('http://localhost:3001/api/auth/cadastro-empresa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dadosCadastro )
+    });
 
-  // Armazenar dados de sessão
-  localStorage.setItem('user_type', 'empresa');
-  localStorage.setItem('user_email', dadosCadastro.email);
-  localStorage.setItem('empresa_tipo', tipo);
-  localStorage.setItem('empresa_id', '1'); // Será dinâmico com API real
+    const result = await response.json();
+    console.log('Resposta da API:', result);
 
-  alert('Conta de empresa criada com sucesso! Bem-vindo ao Feedoo!');
-  window.location.href = 'dashboard-empresa.html';
+    if (!response.ok) {
+      alert('Erro ao cadastrar: ' + (result.message || 'Erro desconhecido'));
+      return;
+    }
+
+    // Armazenar dados de sessão
+    localStorage.setItem('user_type', 'empresa');
+    localStorage.setItem('user_email', dadosCadastro.email);
+    localStorage.setItem('empresa_tipo', tipo);
+    localStorage.setItem('empresa_id', '1'); // Será dinâmico com resposta da API
+
+    alert('Conta de empresa criada com sucesso! Bem-vindo ao Elite Delivery!');
+    window.location.href = 'dashboard-empresa.html';
+
+  } catch (error) {
+    console.error('Erro:', error);
+    alert('Erro ao conectar com o servidor: ' + error.message);
+  }
 }

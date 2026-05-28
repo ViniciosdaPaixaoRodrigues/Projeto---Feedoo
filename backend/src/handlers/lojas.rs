@@ -13,7 +13,7 @@ pub async fn get_lojas(
     empresa_id: web::Path<i32>,
 ) -> HttpResponse {
     let lojas = sqlx::query_as::<_, Loja>(
-        "SELECT id, empresa_id, nome, descricao, telefone, email, cep, logradouro, numero, bairro, cidade, estado, horario_abertura, horario_fechamento, ativa FROM lojas WHERE empresa_id = ?",
+        "SELECT id, empresa_id, nome, descricao, telefone, email, cep, logradouro, numero, complemento, bairro, cidade, estado, latitude, longitude, horario_abertura, horario_fechamento, ativa, aceita_pedidos, data_cadastro, ultima_atualizacao FROM lojas WHERE empresa_id = ?",
     )
     .bind(empresa_id.into_inner())
     .fetch_all(pool.get_ref())
@@ -24,9 +24,12 @@ pub async fn get_lojas(
             "Lojas carregadas com sucesso".to_string(),
             lojas,
         )),
-        Err(_) => HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
-            "Erro ao carregar lojas".to_string(),
-        )),
+        Err(e) => {
+            println!("Erro ao carregar lojas: {:?}", e);
+            HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
+                format!("Erro ao carregar lojas: {}", e),
+            ))
+        }
     }
 }
 
@@ -41,7 +44,7 @@ pub async fn get_loja(
     let (empresa_id, loja_id) = path.into_inner();
 
     let loja = sqlx::query_as::<_, Loja>(
-        "SELECT id, empresa_id, nome, descricao, telefone, email, cep, logradouro, numero, bairro, cidade, estado, horario_abertura, horario_fechamento, ativa FROM lojas WHERE id = ? AND empresa_id = ?",
+        "SELECT id, empresa_id, nome, descricao, telefone, email, cep, logradouro, numero, complemento, bairro, cidade, estado, latitude, longitude, horario_abertura, horario_fechamento, ativa, aceita_pedidos, data_cadastro, ultima_atualizacao FROM lojas WHERE id = ? AND empresa_id = ?",
     )
     .bind(loja_id)
     .bind(empresa_id)
@@ -56,9 +59,12 @@ pub async fn get_loja(
         Ok(None) => HttpResponse::NotFound().json(ApiResponse::<()>::error(
             "Loja não encontrada".to_string(),
         )),
-        Err(_) => HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
-            "Erro ao buscar loja".to_string(),
-        )),
+        Err(e) => {
+            println!("Erro ao buscar loja: {:?}", e);
+            HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
+                format!("Erro ao buscar loja: {}", e),
+            ))
+        }
     }
 }
 

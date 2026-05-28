@@ -1,6 +1,6 @@
 // Cadastro Cliente - JavaScript
 
-function handleCadastro(event) {
+async function handleCadastro(event) {
   event.preventDefault();
 
   const nome = document.getElementById('nome').value;
@@ -45,7 +45,6 @@ function handleCadastro(event) {
     alert('Telefone inválido');
     return;
   }
-
   // Dados do cadastro
   const dadosCadastro = {
     nome,
@@ -57,21 +56,31 @@ function handleCadastro(event) {
   };
 
   console.log('Cadastro Cliente:', dadosCadastro);
+  // FAZER CHAMADA À API
+  try {
+    const response = await fetch('http://localhost:3001/api/auth/cadastro-cliente', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dadosCadastro )
+    });
 
-  // Simulando cadastro (será integrado com MySQLx de Rust)
-  // Aqui você faria uma chamada POST para sua API:
-  // fetch('http://seu-backend/api/usuarios/cadastro', {
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify(dadosCadastro)
-  // })
+    const result = await response.json();
 
-  // Armazenar dados de sessão
-  localStorage.setItem('user_type', 'cliente');
-  localStorage.setItem('user_email', email);
-  localStorage.setItem('user_id', '1'); // Será dinâmico com API real
-  localStorage.setItem('user_name', nome);
+    if (!response.ok) {
+      alert('Erro ao cadastrar: ' + (result.message || 'Erro desconhecido'));
+      return;
+    }
 
-  alert('Conta criada com sucesso! Bem-vindo ao Feedoo!');
-  window.location.href = 'index.html';
+    // Armazenar dados de sessão
+    localStorage.setItem('user_type', 'usuario');
+    localStorage.setItem('user_email', dadosCadastro.email);
+
+  } catch (error) {
+    console.error('Erro:', error);
+    alert('Erro ao conectar com o servidor: ' + error.message);
+  }
 }
+
+ document
+  .getElementById("cadastroForm")
+  .addEventListener("submit", handleCadastro);
