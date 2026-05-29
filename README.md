@@ -47,6 +47,8 @@ git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto---Feedoo
 Execute o script SQL em: Projeto---Feedoo/MySQL/Script do MySQL.sql
 
 # 3. Configure as variáveis de ambiente
+Renomeie o arquivo .envExample para ".env" no seu computador.
+
 Edite o arquivo .env com suas credenciais
 
 # 4. Navegue para a pasta correta.
