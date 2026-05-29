@@ -73,7 +73,7 @@ async fn main() -> std::io::Result<()> {
     // ============================================
     // SERVIR ARQUIVOS ESTÁTICOS (POR ÚLTIMO!)
     // ============================================
-    .service(Files::new("/", "./Frontend")
+    .service(Files::new("/", "../Frontend")
         .index_file("index.html")
         .use_last_modified(true))
     })
