@@ -1,5 +1,7 @@
 # Elite Delivery - Projeto Acadêmico
 
+teste
+
 > Um projeto de faculdade que demonstra competências avançadas em **Rust**, **Arquitetura de Sistemas**, **Integração com Bancos de Dados** e **Desenvolvimento Full-Stack**.
 
 ---
