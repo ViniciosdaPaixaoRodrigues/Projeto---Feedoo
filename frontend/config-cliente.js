@@ -1,60 +1,3 @@
-
-
-Atualizar
-
-Compartilhar
-Lite
-Finalizei as implementações solicitadas para o projeto Feedoo. Criei a tela de configurações do cliente, onde ele pode editar suas informações e desativar a conta sem excluir os dados do banco de dados, seguindo o padrão visual do seu projeto.
-Principais Alterações:
-Componente
-Arquivos Modificados/Criados
-Descrição
-Backend (Rust)
-models.rs, main.rs, usuarios.rs
-Adição de rotas GET e PUT para o perfil do usuário e lógica de status.
-Frontend (HTML)
-configuracoes-cliente.html
-Nova interface para gerenciamento de conta e zona de perigo.
-Frontend (JS)
-configuracoes-cliente.js, config.js
-Lógica de preenchimento automático, atualização de dados e desativação.
-Ajustes de Fluxo
-login-cliente.js, index.js, index.html
-Correção no login para persistir a sessão e exibição dinâmica no menu principal.
-Nota sobre a Desativação: Quando o cliente clica em "Desativar Conta", o sistema altera o campo status_usuario para 'Fechado' no banco de dados. Isso impede o acesso mas preserva o histórico, conforme solicitado.
-Os arquivos estão anexados para você revisar e aplicar ao seu projeto. Se precisar de mais algum ajuste, estou à disposição!
-configuracoes-cliente.html
-Código · 3.60 KB
-configuracoes-cliente.js
-Código · 3.06 KB
-usuarios.rs
-Código · 2.42 KB
-models.rs
-Código · 5.59 KB
-main.rs
-Código · 3.56 KB
-config.js
-Código · 6.47 KB
-login-cliente.js
-Código · 816 B
-index.html
-Código · 4.48 KB
-index.js
-Código · 1.02 KB
-Ver todos os arquivos nesta tarefa
-Tarefa concluída
-Como foi este resultado?
-Sugestões de acompanhamento
-
-
-
-Computadores na nuvem
-Novo
-
-Todos os arquivos nesta tarefa
-Hoje
-
-configuracoes-cliente.js
 document.addEventListener('DOMContentLoaded', async () => {
     const userId = localStorage.getItem('cliente_id');
     
@@ -146,4 +89,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         window.location.href = 'index.html';
     }
 });
-Envio de Arquivos RussT para Iniciar Trabalho - Manus
