@@ -91,8 +91,16 @@ function renderProdutos(produtos) {
           <h3 class="card-title">${produto.nome}</h3>
           <p class="card-subtitle">${produto.categoria || 'Sem categoria'}</p>
         </div>
-        <span class="badge ${produto.disponivel ? 'badge-success' : 'badge-danger'}">
-          ${produto.disponivel ? 'Disponível' : 'Indisponível'}
+        <span class="badge ${
+          produto.quantidade <= 0 
+          ? (produto.quantidade < 0 ? 'badge-warning' : 'badge-danger') 
+          : 'badge-success'
+          }">
+          ${
+            produto.quantidade < 0 
+            ? 'Entrega Pendente' 
+            : (produto.quantidade == 0 ? 'Esgotado' : 'Disponível')
+          }
         </span>
       </div>
 
