@@ -47,13 +47,20 @@ git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto---Feedoo
 Execute o script SQL em: Projeto---Feedoo/MySQL/Script do MySQL.sql
 
 # 3. Configure as variáveis de ambiente
+Renomeie o arquivo .envExample para ".env" no seu computador.
+
 Edite o arquivo .env com suas credenciais
 
-# 4. Instale as dependências
+# 4. Navegue para a pasta correta.
+```bash
+cd backend
+```
+
+# 5. Instale as dependências
 ```bash
 cargo build
 ```
-# 5. Execute o servidor
+# 6. Execute o servidor
 ```bash
 cargo run
 ```
