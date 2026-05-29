@@ -155,19 +155,23 @@ async function handleSaveLoja(event) {
   event.preventDefault();
 
   const empresaId = localStorage.getItem('empresa_id');
-  const nome = document.getElementById('loja-nome').value;
-  const email = document.getElementById('loja-email').value;
 
-  if (!nome || !email) {
+  const dados = {
+    nome: document.getElementById('loja-nome').value,
+    email: document.getElementById('loja-email').value,
+    empresa_id: empresaId
+  };
+
+  if (!dados.nome || !dados.email) {
     alert('Preencha os campos obrigatórios (Nome e Email)');
     return;
   }
 
   const lojaData = {
-    nome,
+    nome: dados.nome,
     descricao: document.getElementById('loja-descricao').value,
     telefone: document.getElementById('loja-telefone').value,
-    email,
+    email: dados.email,
     cep: document.getElementById('loja-cep').value,
     logradouro: document.getElementById('loja-logradouro').value,
     numero: document.getElementById('loja-numero').value,
@@ -203,7 +207,7 @@ async function handleSaveLoja(event) {
     });
 
     const result = await response.json();
-    console.log('📋 Resposta da API:', result);
+    console.log('Resposta da API:', result);
 
     if (!response.ok) {
       throw new Error(result.message || 'Erro ao salvar loja');

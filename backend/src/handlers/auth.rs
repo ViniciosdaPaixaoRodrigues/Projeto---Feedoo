@@ -139,10 +139,15 @@ pub async fn cadastro_empresa(
     .await;
 
     match result {
-        Ok(_) => HttpResponse::Created().json(ApiResponse::ok(
-            "Empresa cadastrada com sucesso".to_string(),
-            serde_json::json!({"email": req.email}),
-        )),
+        Ok(r) => {
+            let id = r.last_insert_id();
+
+            HttpResponse::Created().json(ApiResponse::ok(
+                "Empresa cadastrada com sucesso".to_string(),
+                serde_json::json!({"id": id, "email": req.email}),
+            )
+        )
+    }
         Err(_) => HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
             "Erro ao cadastrar empresa".to_string(),
         )),
