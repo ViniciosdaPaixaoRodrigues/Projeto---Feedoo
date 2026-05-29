@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS perfil_empresa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(100) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    senha CHAR(32) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
     tipo ENUM('PJ', 'PF') NOT NULL,
     cnpj CHAR(18),
     cpf CHAR(14),
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS usuario (
     email VARCHAR(255) UNIQUE,
     telefone VARCHAR(20) NOT NULL, -- Alterado de INT para VARCHAR para suportar números longos e DDD
     endereco VARCHAR(255) NOT NULL,
-    senha CHAR(32) NOT NULL,
+    senha VARCHAR(255) NOT NULL,
     data_registro DATE,
     status_usuario ENUM('Ativo', 'Fechado', 'Suspenso', 'Banido') NOT NULL
 );

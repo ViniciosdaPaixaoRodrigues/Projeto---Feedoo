@@ -2,7 +2,16 @@ use actix_web::{web, HttpResponse};
 use sqlx::MySql;
 use sqlx::Pool;
 
-use md5::{Digest, Md5};
+use argon2::{
+    password_hash::{
+        PasswordHash,
+        PasswordHasher,
+        PasswordVerifier,
+        SaltString,
+        rand_core::OsRng,
+    },
+    Argon2,
+};
 
 use crate::models::{
     CreateEmpresaRequest, CreateUsuarioRequest, LoginRequest, LoginResponse, PerfilEmpresa,
@@ -40,21 +49,19 @@ pub async fn cadastro_cliente(
     }
 
     // Inserir novo usuário
-    let senha = &req.senha;
+    let salt = SaltString::generate(&mut OsRng);
 
-    let mut hasher = Md5::new();
-    hasher.update(senha.as_bytes());
-    let result = hasher.finalize();
-
-    // Converte os bytes do hash para uma string hexadecimal manualmente
-    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
+    let senha_hash = Argon2::default()
+        .hash_password(req.senha.as_bytes(), &salt)
+        .unwrap()
+        .to_string();
 
     let result = sqlx::query(
         "INSERT INTO usuario (nome, email, senha, telefone, endereco, status_usuario) VALUES (?, ?, ?, ?, ?, 'Ativo')",
     )
     .bind(&req.nome)
     .bind(&req.email)
-    .bind(hash_string) // Em produção, usar bcrypt!
+    .bind(senha_hash)
     .bind(&req.telefone)
     .bind(&req.endereco)
     .execute(pool.get_ref())
@@ -79,39 +86,71 @@ pub async fn login_cliente(
     pool: web::Data<Pool<MySql>>,
     req: web::Json<LoginRequest>,
 ) -> HttpResponse {
-    let senha = &req.senha;
-
-    let mut hasher = Md5::new();
-    hasher.update(senha.as_bytes());
-    let result = hasher.finalize();
-
-    // Converte os bytes do hash para uma string hexadecimal manualmente
-    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
 
     let user = sqlx::query_as::<_, Usuario>(
-        "SELECT id, nome, email, senha, telefone, endereco, status_usuario FROM usuario WHERE email = ? AND senha = ?",
+        "SELECT id, nome, email, senha, telefone, endereco, status_usuario
+         FROM usuario
+         WHERE email = ?"
     )
     .bind(&req.email)
-    .bind(hash_string)
     .fetch_optional(pool.get_ref())
     .await;
 
     match user {
         Ok(Some(u)) => {
+
+            let parsed_hash = match PasswordHash::new(&u.senha) {
+                Ok(hash) => hash,
+                Err(_) => {
+                    return HttpResponse::InternalServerError().json(
+                        ApiResponse::<()>::error(
+                            "Erro ao processar senha".to_string()
+                        )
+                    );
+                }
+            };
+
+            let senha_valida = Argon2::default()
+                .verify_password(
+                    req.senha.as_bytes(),
+                    &parsed_hash,
+                )
+                .is_ok();
+
+            if !senha_valida {
+                return HttpResponse::Unauthorized().json(
+                    ApiResponse::<()>::error(
+                        "Credenciais inválidas".to_string()
+                    )
+                );
+            }
+
             let response = LoginResponse {
                 id: u.id,
                 nome: u.nome,
                 email: u.email,
-                token: format!("token_cliente_{}", u.id), // Em produção, usar JWT!
+                token: format!("token_cliente_{}", u.id), // Trocar por JWT futuramente
             };
-            HttpResponse::Ok().json(ApiResponse::ok("Login realizado".to_string(), response))
+
+            HttpResponse::Ok().json(
+                ApiResponse::ok(
+                    "Login realizado".to_string(),
+                    response,
+                )
+            )
         }
-        Ok(None) => HttpResponse::Unauthorized().json(ApiResponse::<()>::error(
-            "Credenciais inválidas".to_string(),
-        )),
-        Err(_) => HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
-            "Erro ao fazer login".to_string(),
-        )),
+
+        Ok(None) => HttpResponse::Unauthorized().json(
+            ApiResponse::<()>::error(
+                "Credenciais inválidas".to_string()
+            )
+        ),
+
+        Err(_) => HttpResponse::InternalServerError().json(
+            ApiResponse::<()>::error(
+                "Erro ao fazer login".to_string()
+            )
+        ),
     }
 }
 
@@ -146,21 +185,19 @@ pub async fn cadastro_empresa(
     }
 
     // Inserir nova empresa
-    let senha = &req.senha;
+    let salt = SaltString::generate(&mut OsRng);
 
-    let mut hasher = Md5::new();
-    hasher.update(senha.as_bytes());
-    let result = hasher.finalize();
-
-    // Converte os bytes do hash para uma string hexadecimal manualmente
-    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
+    let senha_hash = Argon2::default()
+        .hash_password(req.senha.as_bytes(), &salt)
+        .unwrap()
+        .to_string();
 
     let result = sqlx::query(
         "INSERT INTO perfil_empresa (nome, email, senha, tipo, cnpj, cpf) VALUES (?, ?, ?, ?, ?, ?)",
     )
     .bind(&req.nome)
     .bind(&req.email)
-    .bind(hash_string) // Em produção, usar bcrypt!
+    .bind(senha_hash)
     .bind(&req.tipo)
     .bind(&req.cnpj)
     .bind(&req.cpf)
@@ -191,38 +228,70 @@ pub async fn login_empresa(
     pool: web::Data<Pool<MySql>>,
     req: web::Json<LoginRequest>,
 ) -> HttpResponse {
-    let senha = &req.senha;
-
-    let mut hasher = Md5::new();
-    hasher.update(senha.as_bytes());
-    let result = hasher.finalize();
-
-    // Converte os bytes do hash para uma string hexadecimal manualmente
-    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
 
     let empresa = sqlx::query_as::<_, PerfilEmpresa>(
-        "SELECT id, nome, email, senha, tipo, cnpj, cpf FROM perfil_empresa WHERE email = ? AND senha = ?",
+        "SELECT id, nome, email, senha, tipo, cnpj, cpf
+         FROM perfil_empresa
+         WHERE email = ?"
     )
     .bind(&req.email)
-    .bind(hash_string)
     .fetch_optional(pool.get_ref())
     .await;
 
     match empresa {
         Ok(Some(e)) => {
+
+            let parsed_hash = match PasswordHash::new(&e.senha) {
+                Ok(hash) => hash,
+                Err(_) => {
+                    return HttpResponse::InternalServerError().json(
+                        ApiResponse::<()>::error(
+                            "Erro ao processar senha".to_string()
+                        )
+                    );
+                }
+            };
+
+            let senha_valida = Argon2::default()
+                .verify_password(
+                    req.senha.as_bytes(),
+                    &parsed_hash,
+                )
+                .is_ok();
+
+            if !senha_valida {
+                return HttpResponse::Unauthorized().json(
+                    ApiResponse::<()>::error(
+                        "Credenciais inválidas".to_string()
+                    )
+                );
+            }
+
             let response = LoginResponse {
                 id: e.id,
                 nome: e.nome,
                 email: e.email,
-                token: format!("token_empresa_{}", e.id), // Em produção, usar JWT!
+                token: format!("token_empresa_{}", e.id), // Trocar por JWT futuramente
             };
-            HttpResponse::Ok().json(ApiResponse::ok("Login realizado".to_string(), response))
+
+            HttpResponse::Ok().json(
+                ApiResponse::ok(
+                    "Login realizado".to_string(),
+                    response,
+                )
+            )
         }
-        Ok(None) => HttpResponse::Unauthorized().json(ApiResponse::<()>::error(
-            "Credenciais inválidas".to_string(),
-        )),
-        Err(_) => HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
-            "Erro ao fazer login".to_string(),
-        )),
+
+        Ok(None) => HttpResponse::Unauthorized().json(
+            ApiResponse::<()>::error(
+                "Credenciais inválidas".to_string()
+            )
+        ),
+
+        Err(_) => HttpResponse::InternalServerError().json(
+            ApiResponse::<()>::error(
+                "Erro ao fazer login".to_string()
+            )
+        ),
     }
 }
