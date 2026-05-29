@@ -82,6 +82,10 @@ function renderProdutos(produtos) {
 
   grid.innerHTML = produtos.map(produto => `
     <div class="card">
+    <div style="width: 100%; height: 200px; background: white; border-radius: 8px 8px 0 0; display: flex; align-items: center; justify-content: center;">
+      <img src="${produto.imagem_url || 'imagens/placeholder-image.jpg'}" alt="${produto.nome}" style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px 8px 0 0;">
+    </div>
+    
       <div class="card-header">
         <div>
           <h3 class="card-title">${produto.nome}</h3>
@@ -106,6 +110,7 @@ function renderProdutos(produtos) {
     </div>
   `).join('');
 }
+
 
 // ============================================
 // RENDERIZAR ESTOQUE BAIXO

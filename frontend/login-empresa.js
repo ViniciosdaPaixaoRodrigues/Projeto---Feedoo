@@ -28,30 +28,29 @@ async function handleLogin(event, tipo) {
     });
 
     const data = await response.json();
-    console.log('📋 Resposta da API:', data);
+    console.log('Resposta da API:', data);
 
     if (!response.ok) {
       alert('Erro: ' + (data.message || 'Credenciais inválidas'));
       return;
     }
 
-    // ✅ SALVAR DADOS NO LOCALSTORAGE
+    // SALVAR DADOS NO LOCALSTORAGE
     const user = data.data || data;
     
-    console.log('✅ Login bem-sucedido!');
+    console.log('Login bem-sucedido!');
     console.log('User data:', user);
     
     localStorage.setItem('user_type', 'empresa');
     localStorage.setItem('user_email', user.email);
     localStorage.setItem('empresa_tipo', tipo);
-    localStorage.setItem('empresa_id', user.id);  // ✅ IMPORTANTE!
+    localStorage.setItem('empresa_id', user.id);
     localStorage.setItem('user_token', user.token);
 
     console.log('Dados salvos no localStorage:');
     console.log('  empresa_id:', localStorage.getItem('empresa_id'));
     console.log('  user_email:', localStorage.getItem('user_email'));
-
-    alert('Login realizado com sucesso!');
+    
     window.location.href = 'dashboard-empresa.html';
 
   } catch (error) {
@@ -76,3 +75,26 @@ function goToSignup() {
 function goToHome() {
   window.location.href = 'index.html';
 }
+
+// ============================================
+// TABS - TROCAR ENTRE PF E PJ
+// ============================================
+
+document.addEventListener('DOMContentLoaded', () => {
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const tabContents = document.querySelectorAll('.tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabName = btn.getAttribute('data-tab');
+
+      // Remove active de todos
+      tabBtns.forEach(b => b.classList.remove('active'));
+      tabContents.forEach(c => c.classList.remove('active'));
+
+      // Adiciona active no clicado
+      btn.classList.add('active');
+      document.getElementById(tabName).classList.add('active');
+    });
+  });
+});
