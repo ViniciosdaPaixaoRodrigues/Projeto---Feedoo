@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Catálogo - Elite Delivery</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="catalogo.css">
+
+</head>
+<body>
+
+<header class="header">
+
+  <div class="container">
+
+    <div class="header-left">
+      <h2 class="logo">🍔 Elite Delivery</h2>
+    </div>
+
+    <div class="header-actions">
+
+      <input
+        type="text"
+        id="busca"
+        placeholder="Buscar produtos..."
+        class="search-input"
+      >
+
+      <button class="btn btn-primary carrinho-btn">
+        🛒 <span id="cart-count">0</span>
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+<div class="container catalog-layout">
+
+  <main>
+
+    <div class="categorias">
+
+      <button class="categoria active">
+        Todos
+      </button>
+
+      <button class="categoria">
+        Lanches
+      </button>
+
+      <button class="categoria">
+        Acompanhamentos
+      </button>
+
+      <button class="categoria">
+        Bebidas
+      </button>
+
+      <button class="categoria">
+        Doces
+      </button>
+
+      <button class="categoria">
+        Saudável
+      </button>
+
+    </div>
+
+    <div
+      id="produtos"
+      class="grid grid-3">
+    </div>
+
+  </main>
+
+  <aside class="carrinho">
+
+    <h3>Meu Pedido</h3>
+
+    <div id="cart-items">
+
+      <div class="carrinho-vazio">
+
+        <div class="carrinho-vazio-icon">
+          🛒
+        </div>
+
+        <h4>Seu carrinho está vazio</h4>
+
+        <p>
+          Adicione produtos para começar seu pedido.
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="cart-total">
+      Total: R$ <span id="cart-total">0.00</span>
+    </div>
+
+    <button
+      id="btn-finalizar"
+      class="btn btn-primary hidden">
+
+      Finalizar Pedido
+
+    </button>
+
+  </aside>
+
+</div>
+
+<script src="catalogo.js"></script>
+
+</body>
+</html>

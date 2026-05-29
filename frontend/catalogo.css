@@ -1,0 +1,161 @@
+.catalog-layout{
+  display:grid;
+  grid-template-columns:1fr 320px;
+  gap:25px;
+}
+
+.search-input{
+  width:300px;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:8px;
+}
+
+.header-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+/* BOTÃO DO CARRINHO */
+.carrinho-btn{
+  width:auto !important;
+  min-width:60px;
+  padding:6px 10px !important;
+  margin-top:0 !important;
+  font-size:13px;
+  flex-shrink:0;
+}
+
+.categorias{
+  display:flex;
+  gap:10px;
+  margin-bottom:20px;
+  flex-wrap:wrap;
+}
+
+.categoria{
+  border:none;
+  background:white;
+  padding:10px 15px;
+  border-radius:20px;
+  cursor:pointer;
+  box-shadow:var(--shadow);
+  transition:0.2s;
+}
+
+.categoria:hover{
+  transform:translateY(-2px);
+}
+
+.categoria.active{
+  background:var(--primary);
+  color:white;
+}
+
+.carrinho{
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:var(--shadow);
+  position:sticky;
+  top:20px;
+  height:fit-content;
+}
+
+.cart-total{
+  font-size:18px;
+  font-weight:bold;
+  margin:20px 0;
+}
+
+/* ITENS DO CARRINHO */
+.item-carrinho{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+}
+
+.item-carrinho span{
+  font-size:14px;
+  color:var(--text);
+  line-height:1.4;
+}
+
+.btn-remover{
+  background:none;
+  border:none;
+  color:#ef4444;
+  cursor:pointer;
+  font-size:18px;
+  font-weight:bold;
+  transition:0.2s;
+}
+
+.btn-remover:hover{
+  transform:scale(1.2);
+}
+
+/* BOTÃO FINALIZAR ESCONDIDO */
+.hidden{
+  display:none !important;
+}
+
+/* ============================================
+   CARRINHO VAZIO
+   ============================================ */
+
+.carrinho-vazio{
+  text-align:center;
+  padding:30px 10px;
+}
+
+.carrinho-vazio-icon{
+  font-size:48px;
+  margin-bottom:10px;
+}
+
+.carrinho-vazio h4{
+  margin-bottom:8px;
+  color:var(--text);
+  font-size:18px;
+}
+
+.carrinho-vazio p{
+  font-size:14px;
+  color:var(--text-light);
+  line-height:1.5;
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+
+@media(max-width:900px){
+
+  .catalog-layout{
+    grid-template-columns:1fr;
+  }
+
+  .carrinho{
+    position:static;
+  }
+
+  .search-input{
+    width:100%;
+  }
+
+  .header-actions{
+    flex-direction:column;
+    align-items:stretch;
+    width:100%;
+  }
+
+  .carrinho-btn{
+    align-self:flex-end;
+  }
+
+}

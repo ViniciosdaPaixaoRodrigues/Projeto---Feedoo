@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Checkout - Feedoo</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="checkout.css">
+
+</head>
+<body>
+
+<div class="checkout-container">
+
+  <div class="checkout-box">
+
+    <a href="catalogo.html" class="seta-voltar">
+      ←
+    </a>
+
+    <h1>Finalizar Pedido</h1>
+
+    <div id="resumo-pedido"></div>
+
+    <div class="total-box">
+
+      Total:
+      R$ <span id="total-geral">0.00</span>
+
+    </div>
+
+    <form id="checkout-form">
+
+      <input
+        type="text"
+        id="nome"
+        placeholder="Nome Completo"
+        required>
+
+      <input
+        type="tel"
+        id="telefone"
+        placeholder="Telefone"
+        required>
+
+      <input
+        type="text"
+        id="endereco"
+        placeholder="Endereço"
+        required>
+
+      <input
+        type="text"
+        id="numero"
+        placeholder="Número"
+        required>
+
+      <input
+        type="text"
+        id="complemento"
+        placeholder="Complemento">
+
+      <h3>Forma de Pagamento</h3>
+
+      <select id="pagamento">
+
+        <option value="PIX">
+          PIX
+        </option>
+
+        <option value="DEBITO">
+          Cartão de Débito
+        </option>
+
+        <option value="CREDITO">
+          Cartão de Crédito
+        </option>
+
+        <option value="DINHEIRO">
+          Dinheiro
+        </option>
+
+      </select>
+
+      <div id="parcelamento-box" class="hidden">
+
+        <label>
+          Parcelamento
+        </label>
+
+        <select id="parcelamento">
+
+          <option value="1">
+            1x sem juros
+          </option>
+
+        </select>
+
+      </div>
+
+      <input
+        type="text"
+        id="troco"
+        placeholder="Troco para (se dinheiro)">
+
+      <button
+        type="submit"
+        class="btn btn-primary">
+
+        Confirmar Pedido
+
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+
+<script src="checkout.js"></script>
+
+</body>
+</html>
