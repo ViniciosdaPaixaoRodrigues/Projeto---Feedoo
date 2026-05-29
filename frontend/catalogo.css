@@ -17,6 +17,25 @@
   gap:12px;
 }
 
+/* PAGINAÇÃO */
+.paginacao{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:15px;
+  margin-top:30px;
+}
+
+#pagina-info{
+  font-weight:600;
+  min-width:120px;
+  text-align:center;
+}
+
+.paginacao .btn{
+  width:auto;
+}
+
 /* BOTÃO DO CARRINHO */
 .carrinho-btn{
   width:auto !important;

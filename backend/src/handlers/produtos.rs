@@ -27,7 +27,7 @@ pub async fn get_produtos(
             produtos,
         )),
         Err(e) => {
-            println!("❌ Erro ao carregar produtos: {:?}", e);
+            println!("Erro ao carregar produtos: {:?}", e);
             HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
                 format!("Erro ao carregar produtos: {}", e),
             ))
@@ -62,10 +62,58 @@ pub async fn get_produto(
             "Produto não encontrado".to_string(),
         )),
         Err(e) => {
-            println!("❌ Erro ao buscar produto: {:?}", e);
+            println!("Erro ao buscar produto: {:?}", e);
             HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
                 format!("Erro ao buscar produto: {}", e),
             ))
+        }
+    }
+}
+// ============================================================
+// GET - COLETAR TODOS OS PRODUTOS SEM SEPARAÇÃO DE LOJA
+// ============================================================
+pub async fn get_todos_produtos(
+    pool: web::Data<Pool<MySql>>,
+) -> HttpResponse {
+
+    let produtos = sqlx::query_as::<_, Produto>(
+        "SELECT
+            id,
+            loja_id,
+            nome,
+            descricao,
+            Preco as preco,
+            quantidade,
+            aviso_reposicao,
+            disponivel,
+            categoria,
+            imagem_url,
+            total_vendas,
+            tempo_preparo,
+            data_cadastro,
+            ultima_atualizacao
+        FROM produtos
+        WHERE disponivel = true"
+    )
+    .fetch_all(pool.get_ref())
+    .await;
+
+    match produtos {
+        Ok(produtos) => HttpResponse::Ok().json(
+            ApiResponse::ok(
+                "Produtos carregados com sucesso".to_string(),
+                produtos
+            )
+        ),
+
+        Err(e) => {
+            println!("Erro ao carregar produtos: {:?}", e);
+
+            HttpResponse::InternalServerError().json(
+                ApiResponse::<()>::error(
+                    format!("Erro ao carregar produtos: {}", e)
+                )
+            )
         }
     }
 }
@@ -103,7 +151,7 @@ pub async fn create_produto(
             serde_json::json!({"nome": req.nome}),
         )),
         Err(e) => {
-            println!("❌ Erro ao criar produto: {:?}", e);
+            println!("Erro ao criar produto: {:?}", e);
             HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
                 format!("Erro ao criar produto: {}", e),
             ))
@@ -207,7 +255,7 @@ pub async fn update_produto(
             "Produto não encontrado".to_string(),
         )),
         Err(e) => {
-            println!("❌ Erro ao atualizar produto: {:?}", e);
+            println!("Erro ao atualizar produto: {:?}", e);
             HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
                 format!("Erro ao atualizar produto: {}", e),
             ))
@@ -240,7 +288,7 @@ pub async fn delete_produto(
             "Produto não encontrado".to_string(),
         )),
         Err(e) => {
-            println!("❌ Erro ao deletar produto: {:?}", e);
+            println!("Erro ao deletar produto: {:?}", e);
             HttpResponse::InternalServerError().json(ApiResponse::<()>::error(
                 format!("Erro ao deletar produto: {}", e),
             ))

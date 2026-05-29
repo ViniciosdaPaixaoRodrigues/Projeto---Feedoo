@@ -1,58 +1,36 @@
-const produtos = [
-  {
-    id:1,
-    nome:"X-Burger Especial",
-    descricao:"Pão brioche, cheddar e bacon",
-    preco:24.90,
-    categoria:"Lanches",
-    imagem:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd"
-  },
+const PRODUTOS_POR_PAGINA = 10;
 
-  {
-    id:2,
-    nome:"Batata Frita",
-    descricao:"Porção crocante",
-    preco:15.90,
-    categoria:"Acompanhamentos",
-    imagem:"https://images.unsplash.com/photo-1576107232684-1279f390859f"
-  },
+let paginaAtual = 1;
+let produtosFiltrados = [];
+let categoriaAtual = "Todos";
+let termoBusca = "";
 
-  {
-    id:3,
-    nome:"Refrigerante",
-    descricao:"Lata 350ml",
-    preco:7.00,
-    categoria:"Bebidas",
-    imagem:"https://images.unsplash.com/photo-1622483767028-3f66f32aef97"
-  },
+let produtos = [];
 
-  {
-    id:4,
-    nome:"Brownie",
-    descricao:"Chocolate artesanal",
-    preco:12.00,
-    categoria:"Doces",
-    imagem:"https://images.unsplash.com/photo-1606313564200-e75d5e30476c"
-  },
+async function carregarProdutos() {
+  try {
 
-  {
-    id:5,
-    nome:"Salada Caesar",
-    descricao:"Alface, frango e parmesão",
-    preco:22.90,
-    categoria:"Saudável",
-    imagem:"https://images.unsplash.com/photo-1546793665-c74683f339c1"
-  },
+    const response = await fetch(
+      'http://localhost:3001/api/produtos'
+    );
 
-  {
-    id:6,
-    nome:"X-Bacon",
-    descricao:"Hambúrguer artesanal com bacon",
-    preco:29.90,
-    categoria:"Lanches",
-    imagem:"https://images.unsplash.com/photo-1550547660-d9450f859349"
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        result.message || 'Erro ao carregar produtos'
+      );
+    }
+
+    produtos = result.data || [];
+
+    aplicarFiltros();
+
+  } catch (error) {
+    console.error(error);
+    alert('Erro ao carregar catálogo');
   }
-];
+}
 
 const carrinho =
 JSON.parse(localStorage.getItem("carrinho")) || [];
@@ -64,13 +42,27 @@ function renderProdutos(lista){
 
   produtosContainer.innerHTML = "";
 
+  if(lista.length === 0){
+
+    produtosContainer.innerHTML = `
+      <div class="card">
+        <div class="card-content">
+          <h3>Nenhum produto encontrado</h3>
+          <p>Tente alterar os filtros.</p>
+        </div>
+      </div>
+    `;
+
+    return;
+  }
+
   lista.forEach(produto=>{
 
     produtosContainer.innerHTML += `
       <div class="card">
 
         <div class="card-image">
-          <img src="${produto.imagem}">
+          <img src="${produto.imagem_url}">
         </div>
 
         <div class="card-content">
@@ -79,7 +71,7 @@ function renderProdutos(lista){
 
           <p>${produto.descricao}</p>
 
-          <h4>R$ ${produto.preco.toFixed(2)}</h4>
+          <h4>R$ ${parseFloat(produto.preco).toFixed(2)}</h4>
 
         </div>
 
@@ -100,12 +92,116 @@ function renderProdutos(lista){
   });
 }
 
+function renderPagina() {
+
+  const inicio =
+    (paginaAtual - 1) * PRODUTOS_POR_PAGINA;
+
+  const fim =
+    inicio + PRODUTOS_POR_PAGINA;
+
+  const produtosPagina =
+    produtosFiltrados.slice(inicio, fim);
+
+  renderProdutos(produtosPagina);
+
+  atualizarPaginacao();
+}
+
+function aplicarFiltros() {
+
+  produtosFiltrados = produtos.filter(produto => {
+
+    const atendeCategoria =
+      categoriaAtual === "Todos" ||
+      (produto.categoria || "") === categoriaAtual;
+
+    const atendeBusca =
+      (produto.nome || "")
+  .toLowerCase()
+  .includes(termoBusca.toLowerCase())
+
+    return atendeCategoria && atendeBusca;
+  });
+
+  paginaAtual = 1;
+  renderPagina();
+}
+
+function atualizarPaginacao() {
+
+  const totalPaginas =
+    Math.ceil(
+      produtosFiltrados.length /
+      PRODUTOS_POR_PAGINA
+    );
+
+  document.getElementById("pagina-info")
+    .textContent =
+    `Página ${paginaAtual} de ${Math.max(totalPaginas,1)}`;
+
+  document.getElementById("btn-anterior")
+    .disabled =
+    paginaAtual === 1;
+
+  document.getElementById("btn-proxima")
+    .disabled =
+    paginaAtual === totalPaginas ||
+    totalPaginas === 0;
+}
+
+document
+.getElementById("btn-anterior")
+.addEventListener("click", () => {
+
+  if(paginaAtual > 1){
+
+    paginaAtual--;
+    renderPagina();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+});
+
+document
+.getElementById("btn-proxima")
+.addEventListener("click", () => {
+
+  const totalPaginas =
+    Math.ceil(
+      produtosFiltrados.length /
+      PRODUTOS_POR_PAGINA
+    );
+
+  if(paginaAtual < totalPaginas){
+
+    paginaAtual++;
+    renderPagina();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+  }
+});
+
 function addCarrinho(id){
 
   const produto =
-  produtos.find(p => p.id === id);
+    produtos.find(p => p.id === id);
 
-  carrinho.push(produto);
+    if(!produto){
+      return;
+    }
+
+  carrinho.push({
+    ...produto,
+    preco: parseFloat(produto.preco)
+  });
 
   localStorage.setItem(
     "carrinho",
@@ -232,15 +328,8 @@ document
 .getElementById("busca")
 .addEventListener("input", function(){
 
-  const termo =
-  this.value.toLowerCase();
-
-  const filtrados =
-  produtos.filter(produto =>
-    produto.nome.toLowerCase().includes(termo)
-  );
-
-  renderProdutos(filtrados);
+  termoBusca = this.value;
+  aplicarFiltros();
 });
 
 document
@@ -272,22 +361,11 @@ botoesCategoria.forEach(botao => {
     const categoria =
     botao.textContent.trim();
 
-    if(categoria === "Todos"){
-
-      renderProdutos(produtos);
-
-      return;
-    }
-
-    const filtrados =
-    produtos.filter(produto =>
-      produto.categoria === categoria
-    );
-
-    renderProdutos(filtrados);
+    categoriaAtual = categoria;
+    aplicarFiltros();
   });
 
 });
 
-renderProdutos(produtos);
+carregarProdutos();
 atualizarCarrinho();

@@ -56,6 +56,8 @@ async fn main() -> std::io::Result<()> {
     .route("/api/auth/cadastro-empresa", web::post().to(auth::cadastro_empresa))
     .route("/api/auth/login-empresa", web::post().to(auth::login_empresa))
     
+    .route("/api/produtos", web::get().to(produtos::get_todos_produtos))
+
     .route("/api/empresas/{empresa_id}/lojas", web::get().to(lojas::get_lojas))
     .route("/api/empresas/{empresa_id}/lojas", web::post().to(lojas::create_loja))
     .route("/api/empresas/{empresa_id}/lojas/{loja_id}", web::get().to(lojas::get_loja))
