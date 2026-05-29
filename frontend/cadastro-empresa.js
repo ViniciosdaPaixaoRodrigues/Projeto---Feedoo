@@ -136,12 +136,14 @@ async function handleCadastro(event, tipo) {
       alert('Erro ao cadastrar: ' + (result.message || 'Erro desconhecido'));
       return;
     }
-
+    
     // Armazenar dados de sessão
+    const user = result.data;
+
     localStorage.setItem('user_type', 'empresa');
     localStorage.setItem('user_email', dadosCadastro.email);
     localStorage.setItem('empresa_tipo', tipo);
-    localStorage.setItem('empresa_id', '1'); // Será dinâmico com resposta da API
+    localStorage.setItem('empresa_id', String(user.id)); // Será dinâmico com resposta da API
 
     alert('Conta de empresa criada com sucesso! Bem-vindo ao Elite Delivery!');
     window.location.href = 'dashboard-empresa.html';
