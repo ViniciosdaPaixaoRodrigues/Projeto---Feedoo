@@ -2,6 +2,8 @@ use actix_web::{web, HttpResponse};
 use sqlx::MySql;
 use sqlx::Pool;
 
+use md5::{Digest, Md5};
+
 use crate::models::{
     CreateEmpresaRequest, CreateUsuarioRequest, LoginRequest, LoginResponse, PerfilEmpresa,
     Usuario, ApiResponse,
@@ -38,12 +40,21 @@ pub async fn cadastro_cliente(
     }
 
     // Inserir novo usuário
+    let senha = &req.senha;
+
+    let mut hasher = Md5::new();
+    hasher.update(senha.as_bytes());
+    let result = hasher.finalize();
+
+    // Converte os bytes do hash para uma string hexadecimal manualmente
+    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
+
     let result = sqlx::query(
         "INSERT INTO usuario (nome, email, senha, telefone, endereco, status_usuario) VALUES (?, ?, ?, ?, ?, 'Ativo')",
     )
     .bind(&req.nome)
     .bind(&req.email)
-    .bind(&req.senha) // Em produção, usar bcrypt!
+    .bind(hash_string) // Em produção, usar bcrypt!
     .bind(&req.telefone)
     .bind(&req.endereco)
     .execute(pool.get_ref())
@@ -68,11 +79,20 @@ pub async fn login_cliente(
     pool: web::Data<Pool<MySql>>,
     req: web::Json<LoginRequest>,
 ) -> HttpResponse {
+    let senha = &req.senha;
+
+    let mut hasher = Md5::new();
+    hasher.update(senha.as_bytes());
+    let result = hasher.finalize();
+
+    // Converte os bytes do hash para uma string hexadecimal manualmente
+    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
+
     let user = sqlx::query_as::<_, Usuario>(
         "SELECT id, nome, email, senha, telefone, endereco, status_usuario FROM usuario WHERE email = ? AND senha = ?",
     )
     .bind(&req.email)
-    .bind(&req.senha)
+    .bind(hash_string)
     .fetch_optional(pool.get_ref())
     .await;
 
@@ -126,12 +146,21 @@ pub async fn cadastro_empresa(
     }
 
     // Inserir nova empresa
+    let senha = &req.senha;
+
+    let mut hasher = Md5::new();
+    hasher.update(senha.as_bytes());
+    let result = hasher.finalize();
+
+    // Converte os bytes do hash para uma string hexadecimal manualmente
+    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
+
     let result = sqlx::query(
         "INSERT INTO perfil_empresa (nome, email, senha, tipo, cnpj, cpf) VALUES (?, ?, ?, ?, ?, ?)",
     )
     .bind(&req.nome)
     .bind(&req.email)
-    .bind(&req.senha) // Em produção, usar bcrypt!
+    .bind(hash_string) // Em produção, usar bcrypt!
     .bind(&req.tipo)
     .bind(&req.cnpj)
     .bind(&req.cpf)
@@ -162,11 +191,20 @@ pub async fn login_empresa(
     pool: web::Data<Pool<MySql>>,
     req: web::Json<LoginRequest>,
 ) -> HttpResponse {
+    let senha = &req.senha;
+
+    let mut hasher = Md5::new();
+    hasher.update(senha.as_bytes());
+    let result = hasher.finalize();
+
+    // Converte os bytes do hash para uma string hexadecimal manualmente
+    let hash_string = result.iter().map(|b| format!("{:02x}", b)).collect::<String>();
+
     let empresa = sqlx::query_as::<_, PerfilEmpresa>(
         "SELECT id, nome, email, senha, tipo, cnpj, cpf FROM perfil_empresa WHERE email = ? AND senha = ?",
     )
     .bind(&req.email)
-    .bind(&req.senha)
+    .bind(hash_string)
     .fetch_optional(pool.get_ref())
     .await;
 
