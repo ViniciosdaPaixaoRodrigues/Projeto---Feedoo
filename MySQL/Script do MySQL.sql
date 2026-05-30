@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS perfil_empresa (
     
     data_cadastro DATETIME DEFAULT CURRENT_TIMESTAMP,
     ultima_atualizacao DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    
+    status_empresa ENUM('Ativo', 'Fechado', 'Suspenso', 'Banido') NOT NULL
     /*----------------------------------------
 			Explicação do Constraint
     ------------------------------------------
