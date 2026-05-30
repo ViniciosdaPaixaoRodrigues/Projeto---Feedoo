@@ -40,11 +40,11 @@ Criar um sistema web completo que permita:
 
 # 1. Clone o repositório
 ```bash
-git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto---Feedoo
+git clone https://github.com/ViniciosdaPaixaoRodrigues/Projeto-Elite-Delivery
 ```
 
 # 2. Configure o banco de dados
-Execute o script SQL em: Projeto---Feedoo/MySQL/Script do MySQL.sql
+Execute o script SQL em: Projeto-Elite-Delivery/MySQL/Script do MySQL.sql
 
 # 3. Configure as variáveis de ambiente
 Renomeie o arquivo .envExample para ".env" no seu computador.
