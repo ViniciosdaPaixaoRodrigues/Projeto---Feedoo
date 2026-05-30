@@ -37,20 +37,33 @@ async function handleLogin(event, tipo) {
 
     // SALVAR DADOS NO LOCALSTORAGE
     const user = data.data || data;
-    
-    console.log('Login bem-sucedido!');
-    console.log('User data:', user);
-    
-    localStorage.setItem('user_type', 'empresa');
-    localStorage.setItem('user_email', user.email);
-    localStorage.setItem('empresa_tipo', tipo);
-    localStorage.setItem('empresa_id', user.id);
-    localStorage.setItem('user_token', user.token);
 
-    console.log('Dados salvos no localStorage:');
-    console.log('  empresa_id:', localStorage.getItem('empresa_id'));
-    console.log('  user_email:', localStorage.getItem('user_email'));
-    
+    localStorage.setItem(
+      'empresa',
+      JSON.stringify(user)
+    );
+
+    localStorage.setItem(
+      'token',
+      user.token
+    );
+
+    // Compatibilidade com código já existente
+    localStorage.setItem(
+      'empresa_id',
+      user.id
+    );
+
+    localStorage.setItem(
+      'user_email',
+      user.email
+    );
+
+    localStorage.setItem(
+      'empresa_tipo',
+      tipo
+    );
+
     window.location.href = 'dashboard-empresa.html';
 
   } catch (error) {

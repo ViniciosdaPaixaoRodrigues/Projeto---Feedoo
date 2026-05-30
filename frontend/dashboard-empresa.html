@@ -6,35 +6,49 @@
   <title>Dashboard Empresa - Elite Delivery</title>
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<!-- Header -->
+<!-- HEADER -->
 <header class="header">
   <div class="container">
     <h1 class="logo">Minhas Lojas</h1>
-    <button class="btn btn-ghost" onclick="handleLogout()">Sair</button>
+
+    <div>
+      <button class="btn btn-outline" onclick="openEmpresaPerfil()">
+        Meu Perfil
+      </button>
+    </div>
+    <div>
+      <button class="btn btn-ghost" onclick="handleLogout()">
+        Sair
+      </button>
+    </div>
   </div>
 </header>
 
-<!-- Main Content -->
+<!-- MAIN -->
 <main class="container">
   <div class="dashboard-header">
     <div>
       <h2>Gerenciar Lojas</h2>
-      <p class="subtitle">Total de lojas: <span id="totalLojas">1</span></p>
+      <p class="subtitle">Total de lojas: <span id="totalLojas">0</span></p>
     </div>
-    <button class="btn btn-primary" onclick="openNovaLojaModal()">+ Nova Loja</button>
+
+    <button class="btn btn-primary" onclick="openNovaLojaModal()">
+      + Nova Loja
+    </button>
   </div>
 
-  <!-- Lojas Grid -->
-  <div id="lojasGrid" class="grid grid-3">
-    <!-- Lojas serão inseridas aqui via JavaScript -->
-  </div>
+  <div id="lojasGrid" class="grid grid-3"></div>
 </main>
 
-<!-- Modal Nova/Editar Loja -->
+<!-- ============================================ -->
+<!-- MODAL LOJA -->
+<!-- ============================================ -->
 <div id="modalLoja" class="modal hidden">
   <div class="modal-content modal-lg">
+
     <div class="modal-header">
       <h2 id="modalTitle">Criar Nova Loja</h2>
       <button class="modal-close" onclick="closeModal('modalLoja')">×</button>
@@ -42,88 +56,165 @@
 
     <form id="formLoja" onsubmit="handleSaveLoja(event)">
       <div class="form-grid">
-        <!-- Nome -->
+
         <div class="form-group col-2">
-          <label for="loja-nome">Nome da Loja *</label>
-          <input type="text" id="loja-nome" placeholder="Ex: Feedoo Centro" required>
+          <label for="loja-nome">Nome *</label>
+          <input type="text" id="loja-nome" required>
         </div>
 
-        <!-- Descrição -->
         <div class="form-group col-2">
           <label for="loja-descricao">Descrição</label>
-          <input type="text" id="loja-descricao" placeholder="Descrição da loja">
+          <input type="text" id="loja-descricao">
         </div>
 
-        <!-- Telefone -->
         <div class="form-group">
           <label for="loja-telefone">Telefone</label>
-          <input type="tel" id="loja-telefone" placeholder="(11) 99999-0000">
+          <input type="tel" id="loja-telefone">
         </div>
 
-        <!-- Email -->
         <div class="form-group">
           <label for="loja-email">Email *</label>
-          <input type="email" id="loja-email" placeholder="loja@email.com" required>
+          <input type="email" id="loja-email" required>
         </div>
 
-        <!-- CEP -->
         <div class="form-group">
           <label for="loja-cep">CEP</label>
-          <input type="text" id="loja-cep" placeholder="01310100">
+          <input type="text" id="loja-cep">
         </div>
 
-        <!-- Logradouro -->
         <div class="form-group">
           <label for="loja-logradouro">Logradouro</label>
-          <input type="text" id="loja-logradouro" placeholder="Avenida, Rua, etc">
+          <input type="text" id="loja-logradouro">
         </div>
 
-        <!-- Número -->
         <div class="form-group">
           <label for="loja-numero">Número</label>
-          <input type="text" id="loja-numero" placeholder="1000">
+          <input type="text" id="loja-numero">
         </div>
 
-        <!-- Bairro -->
         <div class="form-group">
           <label for="loja-bairro">Bairro</label>
-          <input type="text" id="loja-bairro" placeholder="Bairro">
+          <input type="text" id="loja-bairro">
         </div>
 
-        <!-- Cidade -->
         <div class="form-group">
           <label for="loja-cidade">Cidade</label>
-          <input type="text" id="loja-cidade" placeholder="São Paulo">
+          <input type="text" id="loja-cidade">
         </div>
 
-        <!-- Estado -->
         <div class="form-group">
           <label for="loja-estado">Estado</label>
-          <input type="text" id="loja-estado" placeholder="SP" maxlength="2">
+          <input type="text" id="loja-estado" maxlength="2">
         </div>
 
-        <!-- Horário Abertura -->
         <div class="form-group">
-          <label for="loja-abertura">Horário de Abertura</label>
-          <input type="time" id="loja-abertura" value="10:00">
+          <label for="loja-abertura">Abertura</label>
+          <input type="time" id="loja-abertura">
         </div>
 
-        <!-- Horário Fechamento -->
         <div class="form-group">
-          <label for="loja-fechamento">Horário de Fechamento</label>
-          <input type="time" id="loja-fechamento" value="23:00">
+          <label for="loja-fechamento">Fechamento</label>
+          <input type="time" id="loja-fechamento">
         </div>
+
       </div>
 
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline" onclick="closeModal('modalLoja')">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Salvar</button>
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalLoja')">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          Salvar
+        </button>
       </div>
     </form>
+
   </div>
 </div>
 
+<!-- ============================================ -->
+<!-- MODAL PERFIL EMPRESA -->
+<!-- ============================================ -->
+<div id="modalEmpresa" class="modal hidden">
+  <div class="modal-content modal-lg">
+
+    <div class="modal-header">
+      <h2>Meu Perfil</h2>
+      <button class="modal-close" onclick="closeModal('modalEmpresa')">×</button>
+    </div>
+
+    <form id="formEmpresa" onsubmit="handleSaveEmpresa(event)">
+      <div class="form-grid">
+
+        <div class="form-group col-2">
+          <label>Nome</label>
+          <input type="text" id="emp-nome" required>
+        </div>
+
+        <div class="form-group col-2">
+          <label>Email</label>
+          <input type="email" id="emp-email" required>
+        </div>
+
+        <!-- REGRA CPF/CNPJ -->
+        <div class="form-group">
+          <label>CNPJ</label>
+          <input type="text" id="emp-cnpj" oninput="togglePessoa('cnpj')">
+        </div>
+
+        <div class="form-group">
+          <label>CPF</label>
+          <input type="text" id="emp-cpf" oninput="togglePessoa('cpf')">
+        </div>
+
+        <div class="form-group col-2">
+          <label>Nova Senha</label>
+          <input type="password" id="emp-senha">
+        </div>
+
+        <div class="form-group col-2">
+          <label>Confirmar Senha</label>
+          <input type="password" id="emp-confirmar">
+        </div>
+
+      </div>
+
+      <!-- ZONA DE PERIGO -->
+      <div style="margin-top: 20px; padding: 15px; border: 1px solid #ff4d4d; border-radius: 8px; background: #fff5f5;">
+        <h3 style="color: #ff4d4d; margin-bottom: 10px;">
+          Zona de perigo
+        </h3>
+
+        <p style="font-size: 14px; color: #666; margin-bottom: 15px;">
+          Encerrar sua conta deixará a empresa inativa.
+        </p>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          onclick="handleFecharContaEmpresa()"
+          style="background:#ff4d4d; color:white; border:none; width: 100%;"
+        >
+          Encerrar conta
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline" onclick="closeModal('modalEmpresa')">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary">
+          Salvar
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+
+<!-- SCRIPTS -->
 <script src="config.js"></script>
 <script src="dashboard-empresa.js"></script>
+
 </body>
 </html>

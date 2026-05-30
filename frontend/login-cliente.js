@@ -1,12 +1,11 @@
 // Login Cliente - JavaScript
 
-function handleLogin(event) {
+async function handleLogin(event) {
   event.preventDefault();
 
   const email = document.getElementById('email').value;
   const senha = document.getElementById('senha').value;
 
-  // Validação básica
   if (!email || !senha) {
     alert('Por favor, preencha todos os campos');
     return;
@@ -17,27 +16,22 @@ function handleLogin(event) {
     return;
   }
 
-  async function handleLogin(event) {
-  event.preventDefault();
-
-  const email = document.getElementById('email').value;
-  const senha = document.getElementById('senha').value;
-
-  if (!email || !senha) {
-    alert('Por favor, preencha todos os campos');
-    return;
-  }
-
   try {
-    const usuario = await apiLoginCliente(email, senha);
-    alert('Login realizado com sucesso!');
+    const result = await apiLoginCliente(email, senha);
+
+    localStorage.setItem(
+      'cliente',
+      JSON.stringify(result.data)
+    );
+
+    localStorage.setItem(
+      'token',
+      result.data.token
+    );
+
     window.location.href = 'index.html';
+
   } catch (error) {
     alert('Erro: ' + error.message);
   }
-}
-
-  // Redirecionar para home/restaurantes
-  alert('Login realizado com sucesso!');
-  window.location.href = 'index.html';
 }

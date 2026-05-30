@@ -17,12 +17,18 @@
       </a>
     </div>
     
-    <div class="header-actions">
+    <div class="header-actions" id="headerActions">
       <button class="btn btn-outline" onclick="window.location.href='login-cliente.html'">
         Entrar como Cliente
       </button>
       <button class="btn btn-primary" onclick="window.location.href='login-empresa.html'">
         Entrar como Empresa
+      </button>
+
+      <button
+        class="btn btn-outline"
+        onclick="window.location.href='perfil.html'">
+        Meu Perfil
       </button>
     </div>
   </div>
@@ -223,5 +229,73 @@
 </style>
 
 <script src="config.js"></script>
+<script>
+
+document.addEventListener(
+  'DOMContentLoaded',
+  atualizarHeader
+);
+
+function atualizarHeader() {
+
+  const cliente =
+    localStorage.getItem('cliente');
+
+  const empresa =
+    localStorage.getItem('empresa');
+
+  const header =
+    document.getElementById(
+      'headerActions'
+    );
+
+  // CLIENTE LOGADO
+
+  if (cliente) {
+
+    header.innerHTML = `
+      <button
+        class="btn btn-primary"
+        onclick="window.location.href='perfil.html'">
+        Meu Perfil
+      </button>
+    `;
+
+    return;
+  }
+
+  // EMPRESA LOGADA
+
+  if (empresa) {
+
+    header.innerHTML = `
+      <button
+        class="btn btn-primary"
+        onclick="window.location.href='dashboard-empresa.html'">
+        Minhas Lojas
+      </button>
+    `;
+
+    return;
+  }
+
+  // NINGUÉM LOGADO
+
+  header.innerHTML = `
+    <button
+      class="btn btn-outline"
+      onclick="window.location.href='login-cliente.html'">
+      Entrar como Cliente
+    </button>
+
+    <button
+      class="btn btn-primary"
+      onclick="window.location.href='login-empresa.html'">
+      Entrar como Empresa
+    </button>
+  `;
+}
+
+</script>
 </body>
 </html>

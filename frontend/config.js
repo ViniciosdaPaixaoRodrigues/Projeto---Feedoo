@@ -66,6 +66,21 @@ async function apiCadastroEmpresa(dados) {
   return await response.json();
 }
 
+function getClienteLogado() {
+  return JSON.parse(
+    localStorage.getItem('cliente')
+  );
+}
+
+function isClienteLogado() {
+  return getClienteLogado() !== null;
+}
+
+function logoutCliente() {
+  localStorage.removeItem('cliente');
+  window.location.href = 'login-cliente.html';
+}
+
 // ============================================
 // LOJAS
 // ============================================

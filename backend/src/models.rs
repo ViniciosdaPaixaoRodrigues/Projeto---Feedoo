@@ -27,6 +27,25 @@ pub struct CreateUsuarioRequest {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
+pub struct UpdateUsuarioRequest {
+    pub nome: Option<String>,
+    pub email: Option<String>,
+    pub senha: Option<String>,
+    pub telefone: Option<String>,
+    pub endereco: Option<String>,
+}
+
+#[derive(Serialize)]
+pub struct UsuarioResponse {
+    pub id: i32,
+    pub nome: String,
+    pub email: String,
+    pub telefone: Option<String>,
+    pub endereco: Option<String>,
+    pub status_usuario: String,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct LoginRequest {
     pub email: String,
     pub senha: String,
@@ -61,6 +80,15 @@ pub struct CreateEmpresaRequest {
     pub email: String,
     pub senha: String,
     pub tipo: String, // "PF" ou "PJ"
+    pub cnpj: Option<String>,
+    pub cpf: Option<String>,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct UpdateEmpresaRequest {
+    pub nome: Option<String>,
+    pub email: Option<String>,
+    pub senha: Option<String>,
     pub cnpj: Option<String>,
     pub cpf: Option<String>,
 }

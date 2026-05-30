@@ -8,7 +8,7 @@ use dotenvy::dotenv;
 use sqlx::mysql::MySqlPoolOptions;
 use std::env;
 
-use handlers::{auth, lojas, produtos};
+use handlers::{auth, lojas, empresas, produtos};
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -32,7 +32,8 @@ async fn main() -> std::io::Result<()> {
         .expect("Erro ao conectar ao banco de dados");
 
     println!("Conectado ao banco de dados");
-    println!("Servidor iniciando em http://{}:{}", server_host, server_port);
+    println!("Servidor iniciando em http://localhost:{}", server_port);
+    //println!("Host do servidor:http://{}:{}", server_host, server_port); Essa parte contêm alguns problemas para interagir com o backend, melhor não usar.
 
     // Iniciar servidor HTTP
     HttpServer::new(move || {
@@ -46,7 +47,7 @@ async fn main() -> std::io::Result<()> {
 
         App::new()
             .app_data(web::Data::new(pool.clone()))
-    .wrap(cors)
+            .wrap(cors)
     
     // ============================================
     // ROTAS DE API (PRIMEIRO!)
@@ -55,8 +56,15 @@ async fn main() -> std::io::Result<()> {
     .route("/api/auth/login-cliente", web::post().to(auth::login_cliente))
     .route("/api/auth/cadastro-empresa", web::post().to(auth::cadastro_empresa))
     .route("/api/auth/login-empresa", web::post().to(auth::login_empresa))
+    .route("/api/clientes/{id}", web::get().to(auth::get_cliente))
+    .route("/api/clientes/{id}", web::put().to(auth::update_cliente))
     
     .route("/api/produtos", web::get().to(produtos::get_todos_produtos))
+
+    .route("/api/empresas/{id}", web::get().to(empresas::get_empresa))
+    .route("/api/empresas/{id}", web::put().to(empresas::update_empresa))
+
+    .route("api/empresas/{id}/status", web::patch().to(empresas::alterar_status_empresa))
 
     .route("/api/empresas/{empresa_id}/lojas", web::get().to(lojas::get_lojas))
     .route("/api/empresas/{empresa_id}/lojas", web::post().to(lojas::create_loja))
