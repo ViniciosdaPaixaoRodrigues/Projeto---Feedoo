@@ -23,9 +23,12 @@ Criar um sistema web completo que permita:
 |------|--------|
 | **Guilherme Melo Martins** | Design e Prototipação no Figma |
 | **Júlia Beatriz Nascimento da Silva** | Foco em Design no Figma |
-| **Jorge Lucas Cruz Barbosa de Oliveira** | Frontend / UI/UX / API REST / Actix-web |
+| **Jorge Lucas Cruz Barbosa de Oliveira** | Frontend / UI/UX |
 | **Paulo Henrique de Sousa Alves Correia** | Banco de Dados / Testes / Documentação |
 | **Vinicios da Paixão Rodrigues** | Integração MySQLx / Arquitetura Backend / Rust|
+
+### Protótipo no Figma
+🔗 [Clique aqui para visualizar](https://www.figma.com/design/ODJj9y1Wb8uMD1uF3hCZL4/Expo-tech?node-id=0-1&t=Aauw0AnnWJnUnCdC-1)
 
 ---
 
@@ -325,7 +328,7 @@ curl -X POST http://localhost:3001/api/empresas/1/lojas \
 ## Melhorias Futuras
 
 - [ ] Implementar autenticação JWT
-- [ ] Adicionar hash de senhas (bcrypt)
+- [X] Adicionar hash de senhas - Já realizado!
 - [ ] Sistema de pedidos completo
 - [ ] Notificações em tempo real (WebSockets)
 - [ ] Dashboard com gráficos (Recharts)
@@ -356,7 +359,7 @@ Este projeto é desenvolvido como trabalho acadêmico. Todos os direitos reserva
 ![HTML5](https://img.shields.io/badge/HTML5-E34C26?style=flat-square&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
-[![Figma](https://img.shields.io/badge/Figma-F24E1E?logo=figma&logoColor=white)](#)
+[![Figma](https://img.shields.io/badge/Figma-F24E1E?logo=figma&logoColor=white)](https://www.figma.com/design/ODJj9y1Wb8uMD1uF3hCZL4/Expo-tech?node-id=0-1&t=Aauw0AnnWJnUnCdC-1)
 [![Trello](https://img.shields.io/badge/Trello-0052CC?logo=trello&logoColor=fff)](#)
 
 </div>
